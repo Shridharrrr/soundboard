@@ -52,14 +52,14 @@ graph TD
 
 ### Prerequisites
 - Node.js 22 LTS
-- pnpm (`corepack enable && corepack prepare pnpm@9.12.0 --activate`)
+- npm (bundled with Node 22)
 - Docker & Docker Compose (optional; embedded PGlite fallback is automatically supported)
 
 ### 1. Clone & Install
 ```bash
 git clone https://github.com/example/talk-to-your-data.git
 cd talk-to-your-data
-pnpm install
+npm install
 ```
 
 ### 2. Configure Environment
@@ -79,12 +79,12 @@ docker compose up -d postgres
 ```
 Seed the database with 150,000 deterministic orders:
 ```bash
-pnpm db:seed
+npm run db:seed
 ```
 
 ### 4. Run Development Servers
 ```bash
-pnpm dev
+npm run dev
 ```
 Open **[http://localhost:5173](http://localhost:5173)** in Chrome or Edge and click **"Start Voice"**!
 
@@ -94,13 +94,13 @@ Open **[http://localhost:5173](http://localhost:5173)** in Chrome or Edge and cl
 
 ### Run Test Suite
 ```bash
-pnpm test
+npm test
 ```
 Runs all unit and integration tests across semantic compiler, seed stories, database permissions, API routes, and dashboard state reducers.
 
 ### Run Automated Evaluation Harness (30 Test Cases)
 ```bash
-pnpm eval
+npm run eval
 ```
 Executes all 30 conversational evaluation benchmarks and generates `eval/results/latest.json` and `eval/results/latest.md`.
 

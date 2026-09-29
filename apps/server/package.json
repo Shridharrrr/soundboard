@@ -14,7 +14,7 @@
     "@fastify/cors": "^10.0.1",
     "@fastify/rate-limit": "^10.1.1",
     "@fastify/static": "^8.0.3",
-    "@vd/shared": "workspace:*",
+    "@vd/shared": "*",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.0",
     "pg": "^8.13.1",

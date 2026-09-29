@@ -5,10 +5,14 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "packageManager": "pnpm@9.12.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "eval"
+  ],
   "scripts": {
-    "dev": "concurrently -n server,web -c green,cyan \"pnpm --filter @vd/server dev\" \"pnpm --filter @vd/web dev\"",
-    "build": "pnpm --filter @vd/shared build && pnpm --filter @vd/server build && pnpm --filter @vd/web build",
+    "dev": "concurrently -n server,web -c green,cyan \"npm run dev --workspace=@vd/server\" \"npm run dev --workspace=@vd/web\"",
+    "build": "npm run build --workspace=@vd/shared && npm run build --workspace=@vd/server && npm run build --workspace=@vd/web",
     "test": "vitest run",
     "typecheck": "tsc -b packages/shared apps/server apps/web eval",
     "lint": "eslint . --ext .ts,.tsx",

@@ -1,30 +1,44 @@
+# Dependencies
 node_modules/
+.pnpm-store/
+
+# Production build outputs
 dist/
 build/
-.pnpm-store/
+*.tsbuildinfo
+
+# Database persistence & embedded data
 .pglite_data/
 
-# Environment
+# Environment files
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
+!.env.example
 
 # Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-*.log
+lerna-debug.log*
 
-# OS / Editor
+# Testing & Coverage
+coverage/
+.vitest/
+
+# OS and Editor files
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# Vitest / Coverage
-coverage/
-.vitest/
-
-# Evaluation results (preserve cases, gitignore generated scratch)
+# Evaluation scratch files
 eval/results/*.temp.json
+eval/results/*.tmp.json
