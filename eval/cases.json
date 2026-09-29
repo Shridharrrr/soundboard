@@ -1,0 +1,402 @@
+[
+  {
+    "id": "basic-01",
+    "category": "basic",
+    "utterances": ["show revenue by region for Q3"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "region",
+          "time_range": { "quarter": 3, "year": 2026 }
+        }
+      ]
+    }
+  },
+  {
+    "id": "basic-02",
+    "category": "basic",
+    "utterances": ["show orders monthly for Electronics"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "orders",
+          "time_granularity": "month",
+          "filters": [{ "dimension": "category", "values": ["Electronics"] }]
+        }
+      ]
+    }
+  },
+  {
+    "id": "basic-03",
+    "category": "basic",
+    "utterances": ["average order value by channel this year"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "aov",
+          "group_by": "channel",
+          "time_range": { "preset": "this_year" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "basic-04",
+    "category": "basic",
+    "utterances": ["how many unique customers in the West last month"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "customers",
+          "time_range": { "preset": "last_month" },
+          "filters": [{ "dimension": "region", "values": ["West"] }]
+        }
+      ]
+    }
+  },
+  {
+    "id": "basic-05",
+    "category": "basic",
+    "utterances": ["units sold daily for the last 7 days"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "units",
+          "time_granularity": "day",
+          "time_range": { "preset": "last_7_days" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "basic-06",
+    "category": "basic",
+    "utterances": ["revenue by category for Q2 2026"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "category",
+          "time_range": { "quarter": 2, "year": 2026 }
+        }
+      ]
+    }
+  },
+  {
+    "id": "basic-07",
+    "category": "basic",
+    "utterances": ["show orders by channel for this month"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "orders",
+          "group_by": "channel",
+          "time_range": { "preset": "this_month" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "basic-08",
+    "category": "basic",
+    "utterances": ["total sales year to date"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "time_range": { "preset": "year_to_date" }
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "edit-01",
+    "category": "edit",
+    "utterances": ["show revenue by region for Q3", "make it weekly"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "time_granularity": "week"
+        }
+      ]
+    }
+  },
+  {
+    "id": "edit-02",
+    "category": "edit",
+    "utterances": ["show revenue monthly for this year", "display as a bar chart"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "chart_type": "bar"
+        }
+      ]
+    }
+  },
+  {
+    "id": "edit-03",
+    "category": "edit",
+    "utterances": ["revenue by region for this quarter", "compare to last year"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "region",
+          "compare_to": "previous_year"
+        }
+      ]
+    }
+  },
+  {
+    "id": "edit-04",
+    "category": "edit",
+    "utterances": ["show orders by region this year", "change metric to revenue"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "region"
+        }
+      ]
+    }
+  },
+  {
+    "id": "edit-05",
+    "category": "edit",
+    "utterances": ["revenue by category this month", "compare to previous period"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "category",
+          "compare_to": "previous_period"
+        }
+      ]
+    }
+  },
+  {
+    "id": "edit-06",
+    "category": "edit",
+    "utterances": ["orders by channel this year", "change to quarterly"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "orders",
+          "time_granularity": "quarter"
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "correction-01",
+    "category": "correction",
+    "utterances": ["show revenue by region for Q3", "no, weekly not monthly"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "time_granularity": "week"
+        }
+      ]
+    }
+  },
+  {
+    "id": "correction-02",
+    "category": "correction",
+    "utterances": ["show orders for Electronics", "actually I meant Apparel"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "orders",
+          "filters": [{ "dimension": "category", "values": ["Apparel"] }]
+        }
+      ]
+    }
+  },
+  {
+    "id": "correction-03",
+    "category": "correction",
+    "utterances": ["revenue by category for last quarter", "no make that this quarter"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "time_range": { "preset": "this_quarter" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "correction-04",
+    "category": "correction",
+    "utterances": ["units sold in the Midwest", "scratch that, make it West"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "units",
+          "filters": [{ "dimension": "region", "values": ["West"] }]
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "breakout-01",
+    "category": "breakout",
+    "utterances": ["show revenue by region for Q3", "break out the Southeast"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "category",
+          "filters": [{ "dimension": "region", "values": ["Southeast"] }]
+        }
+      ]
+    }
+  },
+  {
+    "id": "breakout-02",
+    "category": "breakout",
+    "utterances": ["revenue by category this year", "break out Electronics"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "channel",
+          "filters": [{ "dimension": "category", "values": ["Electronics"] }]
+        }
+      ]
+    }
+  },
+  {
+    "id": "breakout-03",
+    "category": "breakout",
+    "utterances": ["orders by channel this month", "break out Web"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "orders",
+          "group_by": "category",
+          "filters": [{ "dimension": "channel", "values": ["Web"] }]
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "ambiguity-01",
+    "category": "ambiguity",
+    "utterances": ["show revenue for the south"],
+    "expect": {
+      "type": "clarification",
+      "candidates": ["Southeast", "Southwest"]
+    }
+  },
+  {
+    "id": "ambiguity-02",
+    "category": "ambiguity",
+    "utterances": ["show orders in the store"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "orders",
+          "filters": [{ "dimension": "channel", "values": ["Retail Store"] }]
+        }
+      ]
+    }
+  },
+  {
+    "id": "ambiguity-03",
+    "category": "ambiguity",
+    "utterances": ["revenue for east"],
+    "expect": {
+      "type": "clarification",
+      "candidates": ["Northeast", "Southeast"]
+    }
+  },
+
+  {
+    "id": "unknown-01",
+    "category": "unknown_metric",
+    "utterances": ["what is our customer churn rate this quarter"],
+    "expect": {
+      "type": "refusal"
+    }
+  },
+  {
+    "id": "unknown-02",
+    "category": "unknown_metric",
+    "utterances": ["calculate gross profit margin for Electronics"],
+    "expect": {
+      "type": "refusal"
+    }
+  },
+  {
+    "id": "unknown-03",
+    "category": "unknown_metric",
+    "utterances": ["what is the weather like in New York today"],
+    "expect": {
+      "type": "refusal"
+    }
+  },
+
+  {
+    "id": "control-01",
+    "category": "control",
+    "utterances": ["show revenue by region", "filter everything to Mobile App"],
+    "expect": {
+      "type": "state",
+      "global_filters": [{ "dimension": "channel", "values": ["Mobile App"] }]
+    }
+  },
+  {
+    "id": "control-02",
+    "category": "control",
+    "utterances": ["show revenue by region", "now remove that chart"],
+    "expect": {
+      "type": "state",
+      "chart_count": 0
+    }
+  },
+  {
+    "id": "control-03",
+    "category": "control",
+    "utterances": ["show revenue by region", "make it monthly", "undo"],
+    "expect": {
+      "type": "state",
+      "charts": [
+        {
+          "metric": "revenue",
+          "group_by": "region"
+        }
+      ]
+    }
+  }
+]

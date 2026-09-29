@@ -1,0 +1,53 @@
+source: analytics.fact_orders
+time_column: order_date
+metrics:
+  revenue:
+    label: Revenue
+    sql: "SUM(amount)"
+    format: currency
+    synonyms: [sales, income, turnover]
+  orders:
+    label: Orders
+    sql: "COUNT(*)"
+    format: integer
+    synonyms: [order count, transactions]
+  aov:
+    label: Average order value
+    sql: "SUM(amount)/NULLIF(COUNT(*),0)"
+    format: currency
+    synonyms: [average order, basket size, ticket size]
+  customers:
+    label: Unique customers
+    sql: "COUNT(DISTINCT customer_id)"
+    format: integer
+    synonyms: [buyers, shoppers]
+  units:
+    label: Units sold
+    sql: "SUM(units)"
+    format: integer
+    synonyms: [volume, items sold]
+dimensions:
+  region:
+    label: Region
+    column: region
+    values: [Northeast, Southeast, Southwest, Midwest, West]
+    synonyms:
+      Northeast: [NE, north east]
+      Southeast: [SE, south east]
+      Southwest: [SW, south west]
+      Midwest: [mid west, MW]
+      West: [western]
+  category:
+    label: Category
+    column: category
+    values: [Electronics, Apparel, Home, Beauty, Sports, Grocery, Toys, Books]
+  channel:
+    label: Channel
+    column: channel
+    values: [Web, Mobile App, Retail Store, Marketplace]
+    synonyms:
+      "Mobile App": [app, mobile]
+      "Retail Store": [store, retail, in-store]
+      Web: [website, online]
+granularities: [day, week, month, quarter]
+default_breakout_order: [category, channel, region]

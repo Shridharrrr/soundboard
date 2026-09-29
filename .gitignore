@@ -1,0 +1,30 @@
+node_modules/
+dist/
+build/
+.pnpm-store/
+.pglite_data/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Vitest / Coverage
+coverage/
+.vitest/
+
+# Evaluation results (preserve cases, gitignore generated scratch)
+eval/results/*.temp.json

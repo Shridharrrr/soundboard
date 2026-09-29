@@ -1,0 +1,387 @@
+{
+  "timestamp": "2026-09-29T08:57:31.258Z",
+  "overallAccuracy": 100,
+  "totalCases": 30,
+  "passedCount": 30,
+  "medianLatencyMs": 51,
+  "p95LatencyMs": 147,
+  "categoryBreakdown": {
+    "basic": {
+      "total": 8,
+      "passed": 8
+    },
+    "edit": {
+      "total": 6,
+      "passed": 6
+    },
+    "correction": {
+      "total": 4,
+      "passed": 4
+    },
+    "breakout": {
+      "total": 3,
+      "passed": 3
+    },
+    "ambiguity": {
+      "total": 3,
+      "passed": 3
+    },
+    "unknown_metric": {
+      "total": 3,
+      "passed": 3
+    },
+    "control": {
+      "total": 3,
+      "passed": 3
+    }
+  },
+  "results": [
+    {
+      "id": "basic-01",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 33,
+      "utterances": [
+        "show revenue by region for Q3"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "basic-02",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 40,
+      "utterances": [
+        "show orders monthly for Electronics"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "basic-03",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 51,
+      "utterances": [
+        "average order value by channel this year"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "basic-04",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 14,
+      "utterances": [
+        "how many unique customers in the West last month"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "basic-05",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 26,
+      "utterances": [
+        "units sold daily for the last 7 days"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "basic-06",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 25,
+      "utterances": [
+        "revenue by category for Q2 2026"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "basic-07",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 24,
+      "utterances": [
+        "show orders by channel for this month"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "basic-08",
+      "category": "basic",
+      "passed": true,
+      "durationMs": 31,
+      "utterances": [
+        "total sales year to date"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "edit-01",
+      "category": "edit",
+      "passed": true,
+      "durationMs": 71,
+      "utterances": [
+        "show revenue by region for Q3",
+        "make it weekly"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "edit-02",
+      "category": "edit",
+      "passed": true,
+      "durationMs": 147,
+      "utterances": [
+        "show revenue monthly for this year",
+        "display as a bar chart"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "edit-03",
+      "category": "edit",
+      "passed": true,
+      "durationMs": 75,
+      "utterances": [
+        "revenue by region for this quarter",
+        "compare to last year"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "edit-04",
+      "category": "edit",
+      "passed": true,
+      "durationMs": 93,
+      "utterances": [
+        "show orders by region this year",
+        "change metric to revenue"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "edit-05",
+      "category": "edit",
+      "passed": true,
+      "durationMs": 63,
+      "utterances": [
+        "revenue by category this month",
+        "compare to previous period"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "edit-06",
+      "category": "edit",
+      "passed": true,
+      "durationMs": 133,
+      "utterances": [
+        "orders by channel this year",
+        "change to quarterly"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "correction-01",
+      "category": "correction",
+      "passed": true,
+      "durationMs": 76,
+      "utterances": [
+        "show revenue by region for Q3",
+        "no, weekly not monthly"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "correction-02",
+      "category": "correction",
+      "passed": true,
+      "durationMs": 54,
+      "utterances": [
+        "show orders for Electronics",
+        "actually I meant Apparel"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "correction-03",
+      "category": "correction",
+      "passed": true,
+      "durationMs": 68,
+      "utterances": [
+        "revenue by category for last quarter",
+        "no make that this quarter"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "correction-04",
+      "category": "correction",
+      "passed": true,
+      "durationMs": 69,
+      "utterances": [
+        "units sold in the Midwest",
+        "scratch that, make it West"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "breakout-01",
+      "category": "breakout",
+      "passed": true,
+      "durationMs": 53,
+      "utterances": [
+        "show revenue by region for Q3",
+        "break out the Southeast"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "breakout-02",
+      "category": "breakout",
+      "passed": true,
+      "durationMs": 117,
+      "utterances": [
+        "revenue by category this year",
+        "break out Electronics"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "breakout-03",
+      "category": "breakout",
+      "passed": true,
+      "durationMs": 36,
+      "utterances": [
+        "orders by channel this month",
+        "break out Web"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "ambiguity-01",
+      "category": "ambiguity",
+      "passed": true,
+      "durationMs": 0,
+      "utterances": [
+        "show revenue for the south"
+      ],
+      "toolCallsCount": 0,
+      "isErrorCount": 0
+    },
+    {
+      "id": "ambiguity-02",
+      "category": "ambiguity",
+      "passed": true,
+      "durationMs": 44,
+      "utterances": [
+        "show orders in the store"
+      ],
+      "toolCallsCount": 1,
+      "isErrorCount": 0
+    },
+    {
+      "id": "ambiguity-03",
+      "category": "ambiguity",
+      "passed": true,
+      "durationMs": 0,
+      "utterances": [
+        "revenue for east"
+      ],
+      "toolCallsCount": 0,
+      "isErrorCount": 0
+    },
+    {
+      "id": "unknown-01",
+      "category": "unknown_metric",
+      "passed": true,
+      "durationMs": 0,
+      "utterances": [
+        "what is our customer churn rate this quarter"
+      ],
+      "toolCallsCount": 0,
+      "isErrorCount": 0
+    },
+    {
+      "id": "unknown-02",
+      "category": "unknown_metric",
+      "passed": true,
+      "durationMs": 0,
+      "utterances": [
+        "calculate gross profit margin for Electronics"
+      ],
+      "toolCallsCount": 0,
+      "isErrorCount": 0
+    },
+    {
+      "id": "unknown-03",
+      "category": "unknown_metric",
+      "passed": true,
+      "durationMs": 0,
+      "utterances": [
+        "what is the weather like in New York today"
+      ],
+      "toolCallsCount": 0,
+      "isErrorCount": 0
+    },
+    {
+      "id": "control-01",
+      "category": "control",
+      "passed": true,
+      "durationMs": 46,
+      "utterances": [
+        "show revenue by region",
+        "filter everything to Mobile App"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "control-02",
+      "category": "control",
+      "passed": true,
+      "durationMs": 97,
+      "utterances": [
+        "show revenue by region",
+        "now remove that chart"
+      ],
+      "toolCallsCount": 2,
+      "isErrorCount": 0
+    },
+    {
+      "id": "control-03",
+      "category": "control",
+      "passed": true,
+      "durationMs": 150,
+      "utterances": [
+        "show revenue by region",
+        "make it monthly",
+        "undo"
+      ],
+      "toolCallsCount": 3,
+      "isErrorCount": 0
+    }
+  ]
+}

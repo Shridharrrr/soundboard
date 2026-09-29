@@ -1,0 +1,30 @@
+{
+  "name": "voice-dashboards-root",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "dev": "concurrently -n server,web -c green,cyan \"pnpm --filter @vd/server dev\" \"pnpm --filter @vd/web dev\"",
+    "build": "pnpm --filter @vd/shared build && pnpm --filter @vd/server build && pnpm --filter @vd/web build",
+    "test": "vitest run",
+    "typecheck": "tsc -b packages/shared apps/server apps/web eval",
+    "lint": "eslint . --ext .ts,.tsx",
+    "db:seed": "tsx db/seed.ts",
+    "eval": "tsx eval/run.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "concurrently": "^9.1.0",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
