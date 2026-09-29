@@ -16,6 +16,8 @@ import { EmptyState } from './components/EmptyState.js';
 import { ManualToolConsole } from './components/ManualToolConsole.js';
 import { LandingPage } from './components/LandingPage.js';
 import { CreateDashboardModal } from './components/CreateDashboardModal.js';
+import { AddComponentModal } from './components/AddComponentModal.js';
+import { KpiRibbon } from './components/KpiRibbon.js';
 import { fetchQuery, fetchSchema, exportMetabase } from './lib/api.js';
 import { getEffectiveChartQuery } from '@vd/shared';
 import {
@@ -28,6 +30,7 @@ import {
   Square,
   BarChart2,
   ArrowLeft,
+  Plus,
 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 
@@ -48,6 +51,7 @@ export const App: React.FC = () => {
   const [hasMetabase, setHasMetabase] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isAddComponentOpen, setIsAddComponentOpen] = useState(false);
 
   const voiceClientRef = useRef<VoiceClient | null>(null);
 
@@ -338,6 +342,7 @@ export const App: React.FC = () => {
             filters={store.global_filters}
             canUndo={store.history.length > 0}
             hasMetabase={hasMetabase}
+            onAddComponent={() => setIsAddComponentOpen(true)}
             onUndo={() => store.undo()}
             onClearDashboard={() => store.clearDashboard()}
             onClearFilters={() => store.clearGlobalFilters()}
@@ -349,41 +354,98 @@ export const App: React.FC = () => {
           {store.charts.length === 0 ? (
             <EmptyState
               onSelectPrompt={handleSelectPromptPhrase}
+              onAddComponent={() => setIsAddComponentOpen(true)}
               onCreateDashboard={() => setIsCreateModalOpen(true)}
             />
           ) : (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 max-w-[1600px] mx-auto">
-              <AnimatePresence>
-                {store.charts.map((chart, index) => (
-                  <ChartCard
-                    key={chart.id}
-                    chart={chart}
-                    result={store.cachedResults[chart.id]}
-                    loading={Boolean(store.loadingCharts[chart.id])}
-                    isHighlighted={store.highlightedChartId === chart.id}
-                    highlightedProperty={
-                      store.activePropertyHighlight?.chartId === chart.id
-                        ? store.activePropertyHighlight.property
-                        : undefined
-                    }
-                    canMoveLeft={index > 0}
-                    canMoveRight={index < store.charts.length - 1}
-                    onMoveLeft={() => store.moveChart(chart.id, 'left')}
-                    onMoveRight={() => store.moveChart(chart.id, 'right')}
-                    onSelect={() => store.setHighlightedChart(chart.id)}
-                    onRemove={(id) => store.removeChart(id)}
-                  />
-                ))}
-              </AnimatePresence>
+            <div className="max-w-[1600px] mx-auto space-y-4">
+              {/* Executive KPI Ribbon */}
+              <KpiRibbon
+                onAddMetricChart={(metric) => {
+                  store.addChart({
+                    metric,
+                    group_by: 'region',
+                    time_range: { preset: 'this_quarter' },
+                    chart_type: 'bar',
+                  });
+                }}
+              />
+
+              {/* Section Header */}
+              <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center gap-2.5">
+                  <h3 className="font-display font-semibold text-sm text-zinc-950">
+                    Visual Analytics & Drilldowns
+                  </h3>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200/80">
+                    {store.charts.length} {store.charts.length === 1 ? 'component' : 'components'}
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => setIsAddComponentOpen(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 hover:border-zinc-300 text-xs font-medium text-zinc-800 shadow-2xs transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5 text-zinc-600" />
+                  <span>Add Component</span>
+                </button>
+              </div>
+
+              {/* Dynamic Grid */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                <AnimatePresence>
+                  {store.charts.map((chart, index) => (
+                    <ChartCard
+                      key={chart.id}
+                      chart={chart}
+                      result={store.cachedResults[chart.id]}
+                      loading={Boolean(store.loadingCharts[chart.id])}
+                      isHighlighted={store.highlightedChartId === chart.id}
+                      highlightedProperty={
+                        store.activePropertyHighlight?.chartId === chart.id
+                          ? store.activePropertyHighlight.property
+                          : undefined
+                      }
+                      canMoveLeft={index > 0}
+                      canMoveRight={index < store.charts.length - 1}
+                      onMoveLeft={() => store.moveChart(chart.id, 'left')}
+                      onMoveRight={() => store.moveChart(chart.id, 'right')}
+                      onSelect={() => store.setHighlightedChart(chart.id)}
+                      onRemove={(id) => store.removeChart(id)}
+                    />
+                  ))}
+                </AnimatePresence>
+
+                {/* Quick Add Component Tile */}
+                <div
+                  onClick={() => setIsAddComponentOpen(true)}
+                  className="rounded-xl border border-dashed border-zinc-200 hover:border-zinc-400 bg-white/50 hover:bg-white p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all min-h-[300px] group shadow-2xs"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-200 shadow-2xs flex items-center justify-center text-zinc-500 group-hover:bg-zinc-900 group-hover:text-white group-hover:scale-105 transition-all mb-3">
+                    <Plus className="w-5 h-5" />
+                  </div>
+                  <p className="text-xs font-semibold text-zinc-900 group-hover:text-black">
+                    Add Another Component
+                  </p>
+                  <p className="text-[11px] text-zinc-400 mt-1 max-w-xs">
+                    Choose from curated analytics catalog or build custom query
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </section>
       </main>
 
-      {/* Create Dashboard Modal in studio */}
+      {/* Modals */}
       <CreateDashboardModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
+      />
+
+      <AddComponentModal
+        isOpen={isAddComponentOpen}
+        onClose={() => setIsAddComponentOpen(false)}
       />
     </div>
   );

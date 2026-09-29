@@ -1,12 +1,13 @@
 import React from 'react';
 import type { Filter } from '@vd/shared';
-import { Undo2, Trash2, ExternalLink, Filter as FilterIcon, X } from 'lucide-react';
+import { Undo2, Trash2, ExternalLink, Filter as FilterIcon, X, Plus } from 'lucide-react';
 import { DashboardSwitcher } from './DashboardSwitcher.js';
 
 interface GlobalFilterBarProps {
   filters: Filter[];
   canUndo: boolean;
   hasMetabase: boolean;
+  onAddComponent?: () => void;
   onUndo: () => void;
   onClearDashboard: () => void;
   onClearFilters: () => void;
@@ -17,6 +18,7 @@ export const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({
   filters,
   canUndo,
   hasMetabase,
+  onAddComponent,
   onUndo,
   onClearDashboard,
   onClearFilters,
@@ -60,6 +62,17 @@ export const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({
 
       {/* Right: Action Buttons */}
       <div className="flex items-center gap-2 flex-shrink-0">
+        {onAddComponent && (
+          <button
+            onClick={onAddComponent}
+            title="Add component to dashboard"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-xs transition-all active:scale-[0.98]"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Component</span>
+          </button>
+        )}
+
         <button
           onClick={onUndo}
           disabled={!canUndo}
