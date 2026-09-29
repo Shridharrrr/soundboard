@@ -5,7 +5,7 @@ node_modules/
 # Production build outputs
 dist/
 build/
-*.tsbuildinfo
+**/*.tsbuildinfo
 
 # Database persistence & embedded data
 .pglite_data/
