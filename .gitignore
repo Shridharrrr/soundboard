@@ -16,9 +16,10 @@ build/
 # Documentation
 docs/
 
-# Markdown files
+# Markdown files (exclude README.md)
 *.md
 **/*.md
+!README.md
 
 
 # Environment files
