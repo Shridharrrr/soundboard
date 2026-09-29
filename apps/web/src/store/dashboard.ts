@@ -74,6 +74,7 @@ export interface DashboardStoreState {
   setChartResult: (chartId: string, result: QueryResultSuccess) => void;
   setChartLoading: (chartId: string, loading: boolean) => void;
   setHighlightedChart: (chartId: string | null, property?: string) => void;
+  moveChart: (chartId: string, direction: 'left' | 'right') => boolean;
 }
 
 const MAX_HISTORY = 20;
@@ -673,5 +674,40 @@ export const useDashboardStore = create<DashboardStoreState>((set, get) => ({
       highlightedChartId: chartId,
       activePropertyHighlight: chartId && property ? { chartId, property } : null,
     });
+  },
+
+  moveChart: (chartId, direction) => {
+    const state = get();
+    const idx = state.charts.findIndex(c => c.id === chartId);
+    if (idx === -1) return false;
+
+    const targetIdx = direction === 'left' ? idx - 1 : idx + 1;
+    if (targetIdx < 0 || targetIdx >= state.charts.length) return false;
+
+    const newCharts = [...state.charts];
+    const temp = newCharts[idx];
+    newCharts[idx] = newCharts[targetIdx];
+    newCharts[targetIdx] = temp;
+
+    const updatedDashboards = state.dashboards.map(d => {
+      if (d.id === state.activeDashboardId) {
+        return {
+          ...d,
+          charts: newCharts,
+          updatedAt: Date.now(),
+        };
+      }
+      return d;
+    });
+
+    set({
+      charts: newCharts,
+      dashboards: updatedDashboards,
+      last_touched: chartId,
+      highlightedChartId: chartId,
+    });
+
+    persistState(updatedDashboards, state.activeDashboardId);
+    return true;
   },
 }));

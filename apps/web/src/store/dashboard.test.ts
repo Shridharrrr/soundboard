@@ -137,4 +137,48 @@ describe('Phase 5: Dashboard Store Reducer & Tool Sequences', () => {
     expect(deleteOk).toBe(true);
     expect(useDashboardStore.getState().dashboards.some(d => d.id === dupId)).toBe(false);
   });
+
+  it('handles manual shifting of charts smoothly with boundary checks and focus update', () => {
+    const store = useDashboardStore.getState();
+
+    // Add 3 charts
+    const c1 = store.addChart({ metric: 'revenue', group_by: 'region' });
+    const c2 = store.addChart({ metric: 'order_count', group_by: 'category' });
+    const c3 = store.addChart({ metric: 'aov', group_by: 'channel' });
+
+    expect(useDashboardStore.getState().charts.map(c => c.id)).toEqual([
+      c1.chart_id,
+      c2.chart_id,
+      c3.chart_id,
+    ]);
+
+    // Boundary check: cannot move first chart left
+    const leftFirst = store.moveChart(c1.chart_id, 'left');
+    expect(leftFirst).toBe(false);
+
+    // Shift second chart left
+    const moveC2Left = store.moveChart(c2.chart_id, 'left');
+    expect(moveC2Left).toBe(true);
+    expect(useDashboardStore.getState().charts.map(c => c.id)).toEqual([
+      c2.chart_id,
+      c1.chart_id,
+      c3.chart_id,
+    ]);
+    expect(useDashboardStore.getState().last_touched).toBe(c2.chart_id);
+    expect(useDashboardStore.getState().highlightedChartId).toBe(c2.chart_id);
+
+    // Boundary check: cannot move last chart right
+    const rightLast = store.moveChart(c3.chart_id, 'right');
+    expect(rightLast).toBe(false);
+
+    // Shift first chart (now c2) right
+    const moveC2Right = store.moveChart(c2.chart_id, 'right');
+    expect(moveC2Right).toBe(true);
+    expect(useDashboardStore.getState().charts.map(c => c.id)).toEqual([
+      c1.chart_id,
+      c2.chart_id,
+      c3.chart_id,
+    ]);
+  });
 });
+

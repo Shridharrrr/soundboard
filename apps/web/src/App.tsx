@@ -354,7 +354,7 @@ export const App: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 max-w-[1600px] mx-auto">
               <AnimatePresence>
-                {store.charts.map((chart) => (
+                {store.charts.map((chart, index) => (
                   <ChartCard
                     key={chart.id}
                     chart={chart}
@@ -366,6 +366,11 @@ export const App: React.FC = () => {
                         ? store.activePropertyHighlight.property
                         : undefined
                     }
+                    canMoveLeft={index > 0}
+                    canMoveRight={index < store.charts.length - 1}
+                    onMoveLeft={() => store.moveChart(chart.id, 'left')}
+                    onMoveRight={() => store.moveChart(chart.id, 'right')}
+                    onSelect={() => store.setHighlightedChart(chart.id)}
                     onRemove={(id) => store.removeChart(id)}
                   />
                 ))}

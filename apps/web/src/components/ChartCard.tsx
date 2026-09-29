@@ -25,6 +25,8 @@ import {
   Filter as FilterIcon,
   Sparkles,
   Calendar,
+  ArrowLeft,
+  ArrowRight,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -34,6 +36,11 @@ interface ChartCardProps {
   loading?: boolean;
   isHighlighted?: boolean;
   highlightedProperty?: string;
+  canMoveLeft?: boolean;
+  canMoveRight?: boolean;
+  onMoveLeft?: () => void;
+  onMoveRight?: () => void;
+  onSelect?: () => void;
   onRemove: (id: string) => void;
 }
 
@@ -61,6 +68,11 @@ export const ChartCard: React.FC<ChartCardProps> = ({
   loading = false,
   isHighlighted = false,
   highlightedProperty,
+  canMoveLeft = false,
+  canMoveRight = false,
+  onMoveLeft,
+  onMoveRight,
+  onSelect,
   onRemove,
 }) => {
   const [showSql, setShowSql] = useState(false);
@@ -254,11 +266,17 @@ export const ChartCard: React.FC<ChartCardProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ duration: 0.2 }}
-      className={`bg-white rounded-xl p-4 flex flex-col gap-3 relative transition-all duration-200 border ${
+      layout
+      layoutId={chart.id}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{
+        layout: { type: 'spring', damping: 26, stiffness: 280 },
+        opacity: { duration: 0.2 },
+      }}
+      onClick={onSelect}
+      className={`bg-white rounded-xl p-4 flex flex-col gap-3 relative transition-colors duration-200 border cursor-pointer select-none ${
         isHighlighted
           ? 'border-zinc-900 shadow-md ring-2 ring-zinc-900/10'
           : 'border-zinc-200/90 shadow-xs hover:shadow-subtle hover:border-zinc-300'
@@ -333,6 +351,34 @@ export const ChartCard: React.FC<ChartCardProps> = ({
 
         {/* Action Controls & Delta Badge */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
+          {/* Shifting Buttons */}
+          {(canMoveLeft || canMoveRight) && (
+            <div
+              className="flex items-center rounded-lg border border-zinc-200 bg-white p-0.5 shadow-2xs mr-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={onMoveLeft}
+                disabled={!canMoveLeft}
+                title="Shift left / earlier"
+                className="p-1 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 disabled:opacity-25 disabled:pointer-events-none transition-colors"
+              >
+                <ArrowLeft className="w-3 h-3" />
+              </button>
+              <div className="w-px h-3 bg-zinc-200" />
+              <button
+                type="button"
+                onClick={onMoveRight}
+                disabled={!canMoveRight}
+                title="Shift right / later"
+                className="p-1 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 disabled:opacity-25 disabled:pointer-events-none transition-colors"
+              >
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
+          )}
+
           {deltaPct !== undefined && (
             <div
               className={`flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border ${
@@ -347,7 +393,10 @@ export const ChartCard: React.FC<ChartCardProps> = ({
           )}
 
           <button
-            onClick={() => setShowSql(!showSql)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowSql(!showSql);
+            }}
             title="Inspect compiled SQL"
             className={`p-1.5 rounded-lg border text-xs transition-colors ${
               showSql
@@ -359,7 +408,10 @@ export const ChartCard: React.FC<ChartCardProps> = ({
           </button>
 
           <button
-            onClick={() => onRemove(chart.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove(chart.id);
+            }}
             title="Remove chart"
             className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-400 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50/50 transition-colors"
           >
