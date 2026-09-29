@@ -1,5 +1,7 @@
 import { fetchSchema, fetchVoiceToken } from '../lib/api.js';
 import { executeToolCall } from '../tools/handlers.js';
+import { useDashboardStore } from '../store/dashboard.js';
+import { interpretUtteranceLocally } from './localInterpreter.js';
 import { createAudioInputHandler, type AudioInputHandler } from './audio-in.js';
 import { createAudioOutputHandler, type AudioOutputHandler } from './audio-out.js';
 
@@ -372,14 +374,77 @@ export class VoiceClient {
     if (!trimmed) return;
 
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
-      // Offline fallback: simulate local user entry followed by agent helper notice
+      const store = useDashboardStore.getState();
+      const interpreted = interpretUtteranceLocally(trimmed, store.charts, store.last_touched);
+
+      if (interpreted) {
+        const chipId = `chip-${Date.now()}`;
+        this.callbacks.onToolChipAdd({
+          id: chipId,
+          name: interpreted.toolName,
+          argsSummary:
+            Object.entries(interpreted.args)
+              .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
+              .slice(0, 2)
+              .join(' · ') || 'call',
+          status: 'pending',
+          timestamp: Date.now(),
+        });
+
+        this.transcripts = [
+          ...this.transcripts,
+          { id: `u-${Date.now()}`, role: 'user', text: trimmed, isFinal: true },
+        ];
+        this.callbacks.onTranscriptUpdate(this.transcripts);
+
+        executeToolCall(interpreted.toolName, interpreted.args)
+          .then((res) => {
+            this.callbacks.onToolChipUpdate(chipId, { status: 'done' });
+            let insightText = interpreted.confirmation;
+            try {
+              const parsed = JSON.parse(res.result);
+              if (parsed.insight_facts && parsed.insight_facts.top_group) {
+                insightText += ` (${parsed.insight_facts.top_group} leading)`;
+              }
+            } catch {
+              // ignore
+            }
+
+            this.transcripts = [
+              ...this.transcripts,
+              {
+                id: `a-${Date.now()}`,
+                role: 'agent',
+                text: `${insightText}`,
+                isFinal: true,
+              },
+            ];
+            this.callbacks.onTranscriptUpdate(this.transcripts);
+          })
+          .catch((err) => {
+            this.callbacks.onToolChipUpdate(chipId, { status: 'error' });
+            this.transcripts = [
+              ...this.transcripts,
+              {
+                id: `a-${Date.now()}`,
+                role: 'agent',
+                text: `Could not process command: ${err.message}`,
+                isFinal: true,
+              },
+            ];
+            this.callbacks.onTranscriptUpdate(this.transcripts);
+          });
+        return;
+      }
+
+      // Default offline message if unrecognized
       this.transcripts = [
         ...this.transcripts,
         { id: `u-${Date.now()}`, role: 'user', text: trimmed, isFinal: true },
         {
           id: `a-${Date.now()}`,
           role: 'agent',
-          text: 'Voice agent is currently idle. Click "Start Voice" above to speak live, or run actions using the Manual Tool Console below.',
+          text: 'Voice agent is currently idle. Click "Start Voice" above to speak live, or add components with the "+ Add Component" catalog.',
           isFinal: true,
         },
       ];

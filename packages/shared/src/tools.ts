@@ -138,6 +138,7 @@ export function buildAssemblyAITools(options: {
           chart_type: {
             type: 'string',
             enum: ['bar', 'line', 'area', 'stacked_bar', 'donut'],
+            description: 'Intelligently select the best visualization: "donut" for category share/distribution; "area" for monthly/quarterly volume trajectories; "line" for multi-period comparisons (YoY) and daily/weekly trends; "bar" for regional/channel rankings and comparisons. Respect explicit user preference.',
           },
           title: {
             type: 'string',

@@ -12,13 +12,34 @@ export const ChartSpecSchema = QueryRequestSchema.extend({
 export type ChartSpec = z.infer<typeof ChartSpecSchema>;
 
 /**
- * Auto-resolves chart type if not specified:
- * - time series (has time_granularity) -> 'line'
- * - categorical (has group_by, no time_granularity) -> 'bar'
- * - single value -> 'bar'
+ * Auto-resolves the optimal chart type if not specified:
+ * - multi-period comparisons (compare_to active) -> 'line'
+ * - monthly/quarterly trends (continuous volume trajectory) -> 'area'
+ * - daily/weekly time series -> 'line'
+ * - category breakdown (share of product categories) -> 'donut'
+ * - regional/channel comparisons -> 'bar'
+ * - default -> 'bar'
  */
 export function resolveAutoChartType(req: Partial<QueryRequest> & { chart_type?: ChartType }): ChartType {
   if (req.chart_type) return req.chart_type;
-  if (req.time_granularity) return 'line';
+
+  // Comparison to previous year or previous period is best visualized as a line
+  if (req.compare_to && req.compare_to !== 'none') {
+    return 'line';
+  }
+
+  // Time series volume / trajectory
+  if (req.time_granularity) {
+    if (req.time_granularity === 'month' || req.time_granularity === 'quarter') {
+      return 'area';
+    }
+    return 'line';
+  }
+
+  // Category composition/distribution is best visualized as a donut
+  if (req.group_by === 'category') {
+    return 'donut';
+  }
+
   return 'bar';
 }
