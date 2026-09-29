@@ -106,4 +106,35 @@ describe('Phase 5: Dashboard Store Reducer & Tool Sequences', () => {
     expect(chart.group_by).toBe('category');
     expect(chart.time_granularity).toBeUndefined();
   });
+
+  it('handles multi-dashboard creation, switching, renaming, duplication, and deletion', () => {
+    const store = useDashboardStore.getState();
+
+    // 1. Create new dashboard
+    const newId = store.createDashboard('Finance Overview', 'Financial metrics tracking');
+    expect(newId).toBeDefined();
+    expect(useDashboardStore.getState().activeDashboardId).toBe(newId);
+    expect(useDashboardStore.getState().charts.length).toBe(0);
+
+    // 2. Add chart to this new dashboard
+    store.addChart({ metric: 'revenue', group_by: 'channel' });
+    expect(useDashboardStore.getState().charts.length).toBe(1);
+
+    // 3. Rename dashboard
+    const renameOk = store.renameDashboard(newId, 'Global Revenue 2026', 'Updated description');
+    expect(renameOk).toBe(true);
+    const renamed = useDashboardStore.getState().dashboards.find(d => d.id === newId);
+    expect(renamed?.title).toBe('Global Revenue 2026');
+
+    // 4. Duplicate dashboard
+    const dupId = store.duplicateDashboard(newId);
+    expect(dupId).toBeDefined();
+    expect(useDashboardStore.getState().activeDashboardId).toBe(dupId);
+    expect(useDashboardStore.getState().charts.length).toBe(1);
+
+    // 5. Delete duplicated dashboard
+    const deleteOk = store.deleteDashboard(dupId);
+    expect(deleteOk).toBe(true);
+    expect(useDashboardStore.getState().dashboards.some(d => d.id === dupId)).toBe(false);
+  });
 });

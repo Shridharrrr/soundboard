@@ -1,11 +1,12 @@
 import React from 'react';
-import { Mic, BarChart3, TrendingUp, Calendar, ArrowRight } from 'lucide-react';
+import { Mic, BarChart3, TrendingUp, Calendar, ArrowRight, LayoutTemplate } from 'lucide-react';
 
 interface EmptyStateProps {
   onSelectPrompt: (phrase: string) => void;
+  onCreateDashboard?: () => void;
 }
 
-export const EmptyState: React.FC<EmptyStateProps> = ({ onSelectPrompt }) => {
+export const EmptyState: React.FC<EmptyStateProps> = ({ onSelectPrompt, onCreateDashboard }) => {
   const examplePhrases = [
     {
       title: 'Regional Breakdown',
@@ -39,7 +40,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onSelectPrompt }) => {
         Talk to Your Data
       </h2>
       <p className="text-xs text-zinc-500 mb-6 max-w-sm leading-relaxed">
-        Speak naturally into your microphone or click one of the suggested prompts below to build your live dashboard.
+        Speak naturally into your microphone or click one of the suggested prompts below to start building your live dashboard.
       </p>
 
       {/* Prompt Cards */}
@@ -68,6 +69,19 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onSelectPrompt }) => {
           );
         })}
       </div>
+
+      {/* Starter Template Option */}
+      {onCreateDashboard && (
+        <div className="mt-5 pt-4 border-t border-zinc-200/80 w-full flex items-center justify-center">
+          <button
+            onClick={onCreateDashboard}
+            className="inline-flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-950 font-medium px-3 py-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors"
+          >
+            <LayoutTemplate className="w-3.5 h-3.5 text-zinc-500" />
+            <span>Or load a pre-built starter template</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

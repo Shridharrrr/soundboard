@@ -15,7 +15,9 @@ import { GlobalFilterBar } from './components/GlobalFilterBar.js';
 import { EmptyState } from './components/EmptyState.js';
 import { ManualToolConsole } from './components/ManualToolConsole.js';
 import { LandingPage } from './components/LandingPage.js';
-import { fetchSchema, exportMetabase } from './lib/api.js';
+import { CreateDashboardModal } from './components/CreateDashboardModal.js';
+import { fetchQuery, fetchSchema, exportMetabase } from './lib/api.js';
+import { getEffectiveChartQuery } from '@vd/shared';
 import {
   Mic,
   MicOff,
@@ -45,8 +47,31 @@ export const App: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [hasMetabase, setHasMetabase] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const voiceClientRef = useRef<VoiceClient | null>(null);
+
+  // Automatically fetch missing queries for charts in the active dashboard
+  useEffect(() => {
+    store.charts.forEach(chart => {
+      if (!store.cachedResults[chart.id] && !store.loadingCharts[chart.id]) {
+        store.setChartLoading(chart.id, true);
+        const query = getEffectiveChartQuery(chart, store.global_filters);
+        fetchQuery(query)
+          .then(res => {
+            if (res.ok) {
+              store.setChartResult(chart.id, res);
+            }
+          })
+          .catch(err => {
+            console.error('[App] Failed to load chart query:', err);
+          })
+          .finally(() => {
+            store.setChartLoading(chart.id, false);
+          });
+      }
+    });
+  }, [store.charts, store.global_filters, store.activeDashboardId]);
 
   useEffect(() => {
     fetchSchema()
@@ -163,7 +188,22 @@ export const App: React.FC = () => {
   const currentLevel = voiceState === 'Speaking' ? outputLevel : micLevel;
 
   if (currentView === 'landing') {
-    return <LandingPage onLaunchApp={handleLaunchApp} />;
+    return (
+      <>
+        <LandingPage
+          onLaunchApp={handleLaunchApp}
+          onCreateDashboard={() => {
+            setCurrentView('app');
+            window.location.hash = '#/app';
+            setIsCreateModalOpen(true);
+          }}
+        />
+        <CreateDashboardModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+        />
+      </>
+    );
   }
 
   return (
@@ -307,7 +347,10 @@ export const App: React.FC = () => {
 
         <section className="flex-1 p-6">
           {store.charts.length === 0 ? (
-            <EmptyState onSelectPrompt={handleSelectPromptPhrase} />
+            <EmptyState
+              onSelectPrompt={handleSelectPromptPhrase}
+              onCreateDashboard={() => setIsCreateModalOpen(true)}
+            />
           ) : (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 max-w-[1600px] mx-auto">
               <AnimatePresence>
@@ -331,6 +374,12 @@ export const App: React.FC = () => {
           )}
         </section>
       </main>
+
+      {/* Create Dashboard Modal in studio */}
+      <CreateDashboardModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />
     </div>
   );
 };

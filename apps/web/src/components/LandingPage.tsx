@@ -23,6 +23,7 @@ import {
   ChevronDown,
   LineChart as LineChartIcon,
   PieChart as PieChartIcon,
+  Plus,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -43,6 +44,7 @@ import {
 
 interface LandingPageProps {
   onLaunchApp: (initialPrompt?: string) => void;
+  onCreateDashboard?: () => void;
 }
 
 // Interactive Hero Simulation Data
@@ -179,7 +181,7 @@ const CURATED_PROMPTS = [
 
 const DONUT_COLORS = ['#18181b', '#4f46e5', '#0284c7', '#10b981'];
 
-export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp }) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateDashboard }) => {
   const [activeScenario, setActiveScenario] = useState<DemoScenario>(DEMO_SCENARIOS[0]);
   const [showSql, setShowSql] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
@@ -389,6 +391,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp }) => {
               <span>Launch Voice Dashboard</span>
               <ArrowRight className="w-4 h-4 text-zinc-400" />
             </button>
+
+            {onCreateDashboard && (
+              <button
+                onClick={onCreateDashboard}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 font-medium text-sm shadow-xs transition-colors"
+              >
+                <Plus className="w-4 h-4 text-zinc-600" />
+                <span>Create Dashboard</span>
+              </button>
+            )}
 
             <a
               href="#interactive-demo"
