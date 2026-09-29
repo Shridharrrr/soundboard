@@ -1,8 +1,8 @@
 # Voice Agent Evaluation Results
 
-**Date:** Tue, 29 Sep 2026 09:38:59 GMT  
+**Date:** Tue, 29 Sep 2026 10:32:47 GMT  
 **Overall State-Match Accuracy:** **100%** (30/30)  
-**Latency:** Median: 74ms | P95: 215ms  
+**Latency:** Median: 43ms | P95: 98ms  
 
 ### Category Breakdown
 

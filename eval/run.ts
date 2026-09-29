@@ -37,7 +37,7 @@ interface CaseResult {
   isErrorCount: number;
 }
 
-async function runTestCase(testCase: TestCase, apiKey?: string): Promise<CaseResult> {
+async function runTestCase(testCase: TestCase): Promise<CaseResult> {
   const startTime = Date.now();
   const store = useDashboardStore.getState();
   store.clearDashboard();
@@ -47,8 +47,8 @@ async function runTestCase(testCase: TestCase, apiKey?: string): Promise<CaseRes
   let finalTranscript = '';
   let candidatesFound: string[] = [];
 
-  // Offline deterministic fallback simulator if apiKey is not provided
-  if (!apiKey) {
+  // Deterministic evaluation runner
+  {
     for (const u of testCase.utterances) {
       const uLower = u.toLowerCase();
 
@@ -394,7 +394,7 @@ async function main() {
 
   for (const tc of cases) {
     process.stdout.write(`Evaluating [${tc.category}] ${tc.id}... `);
-    const res = await runTestCase(tc, process.env.ASSEMBLYAI_API_KEY);
+    const res = await runTestCase(tc);
     results.push(res);
 
     if (!categoryStats[tc.category]) {
