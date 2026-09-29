@@ -105,36 +105,20 @@ export const App: React.FC = () => {
     setIsMuted(next);
   };
 
-  const handleSendText = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!textInput.trim()) return;
-
-    const val = textInput.trim();
+  const handleSendText = (e?: React.FormEvent, overrideText?: string) => {
+    e?.preventDefault();
+    const val = (overrideText !== undefined ? overrideText : textInput).trim();
+    if (!val) return;
     setTextInput('');
 
-    if (voiceClientRef.current && voiceClientRef.current.getState() !== 'Idle') {
+    if (voiceClientRef.current) {
       voiceClientRef.current.sendTextMessage(val);
-    } else {
-      setTranscripts(prev => [
-        ...prev,
-        { id: `u-${Date.now()}`, role: 'user', text: val, isFinal: true },
-        {
-          id: `a-${Date.now()}`,
-          role: 'agent',
-          text: 'Voice agent is currently idle. Click "Start Voice" above to speak live, or run actions using the Manual Tool Console below.',
-          isFinal: true,
-        },
-      ]);
     }
   };
 
   const handleSelectPromptPhrase = (phrase: string) => {
     setTextInput(phrase);
-    if (voiceClientRef.current && voiceClientRef.current.getState() !== 'Idle') {
-      voiceClientRef.current.sendTextMessage(phrase);
-    } else {
-      handleSendText({ preventDefault: () => {} } as any);
-    }
+    handleSendText(undefined, phrase);
   };
 
   const handleExportMetabase = async () => {

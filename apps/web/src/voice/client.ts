@@ -103,9 +103,16 @@ export class VoiceClient {
           session: {
             system_prompt: schema.system_prompt,
             greeting: schema.greeting,
+            input: {
+              format: {
+                encoding: 'audio/pcm',
+              },
+            },
             output: {
               voice: 'ivy',
-              format: 'pcm_24k',
+              format: {
+                encoding: 'audio/pcm',
+              },
             },
             tools: schema.tools,
           },
@@ -208,6 +215,11 @@ export class VoiceClient {
           this.currentUserEntry.isFinal = true;
           this.currentUserEntry = null;
         } else {
+          const lastEntry = this.transcripts[this.transcripts.length - 1];
+          if (lastEntry && lastEntry.role === 'user' && lastEntry.text === (msg.text || '')) {
+            // Already present from optimistic input, don't duplicate
+            break;
+          }
           this.transcripts = [
             ...this.transcripts,
             { id: `u-${Date.now()}`, role: 'user', text: msg.text || '', isFinal: true },
@@ -231,8 +243,9 @@ export class VoiceClient {
       }
 
       case 'reply.audio': {
-        if (msg.audio) {
-          this.audioOut.enqueueAudioChunk(msg.audio);
+        const audioPayload = msg.audio || msg.data;
+        if (audioPayload) {
+          this.audioOut.enqueueAudioChunk(audioPayload);
         }
         break;
       }
@@ -355,22 +368,38 @@ export class VoiceClient {
   }
 
   public sendTextMessage(text: string): void {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
-      // Offline fallback: simulate local user entry
+      // Offline fallback: simulate local user entry followed by agent helper notice
       this.transcripts = [
         ...this.transcripts,
-        { id: `u-${Date.now()}`, role: 'user', text, isFinal: true },
+        { id: `u-${Date.now()}`, role: 'user', text: trimmed, isFinal: true },
+        {
+          id: `a-${Date.now()}`,
+          role: 'agent',
+          text: 'Voice agent is currently idle. Click "Start Voice" above to speak live, or run actions using the Manual Tool Console below.',
+          isFinal: true,
+        },
       ];
       this.callbacks.onTranscriptUpdate(this.transcripts);
       return;
     }
+
+    // Connected: add user entry optimistically so user sees their query immediately
+    this.transcripts = [
+      ...this.transcripts,
+      { id: `u-${Date.now()}`, role: 'user', text: trimmed, isFinal: true },
+    ];
+    this.callbacks.onTranscriptUpdate(this.transcripts);
 
     // Text injection protocol (Section 5)
     this.ws.send(
       JSON.stringify({
         type: 'conversation.message',
         role: 'user',
-        content: text,
+        content: trimmed,
       })
     );
 
