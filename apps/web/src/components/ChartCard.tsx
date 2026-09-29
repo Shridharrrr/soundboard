@@ -23,7 +23,6 @@ import {
   Code2,
   Trash2,
   Filter as FilterIcon,
-  Sparkles,
   Calendar,
   ArrowLeft,
   ArrowRight,
@@ -443,7 +442,7 @@ export const ChartCard: React.FC<ChartCardProps> = ({
 
       {/* Footer Insight */}
       <div className="flex items-center gap-1.5 text-xs text-zinc-600 pt-2.5 border-t border-zinc-100">
-        <Sparkles className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+        <TrendingUp className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
         <span className="truncate">{renderInsightText() || 'Generating insights...'}</span>
       </div>
     </motion.div>

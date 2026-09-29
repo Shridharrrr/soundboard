@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import type { TranscriptEntry } from '../voice/client.js';
-import { Sparkles, MessageSquare } from 'lucide-react';
+import { Bot, MessageSquare } from 'lucide-react';
 
 interface TranscriptLogProps {
   entries: TranscriptEntry[];
@@ -44,7 +44,7 @@ export const TranscriptLog: React.FC<TranscriptLogProps> = ({ entries }) => {
                 <span className="text-[11px] font-medium text-zinc-500">You</span>
               ) : (
                 <div className="flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-zinc-700" />
+                  <Bot className="w-3 h-3 text-zinc-700" />
                   <span className="text-[11px] font-medium text-zinc-700">Ivy (Assistant)</span>
                 </div>
               )}

@@ -8,7 +8,6 @@ import {
   TrendingUp,
   PieChart as PieChartIcon,
   Calendar,
-  Sparkles,
   Sliders,
   ArrowRight,
   Check,
@@ -279,7 +278,7 @@ export const AddComponentModal: React.FC<AddComponentModalProps> = ({
               <Plus className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-display font-semibold text-sm text-zinc-950">Add Dashboard Component</h2>
+              <h2 className="font-serif font-normal text-xl text-zinc-950 tracking-[-0.01em]">Add Dashboard Component</h2>
               <p className="text-xs text-zinc-500">Select pre-built intelligent modules or design a custom metric query</p>
             </div>
           </div>
@@ -304,7 +303,7 @@ export const AddComponentModal: React.FC<AddComponentModalProps> = ({
                   : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-zinc-700" />
+              <Layers className="w-3.5 h-3.5 text-zinc-700" />
               <span>Intelligent Catalog</span>
               <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-zinc-100 text-zinc-600">
                 {PRESET_COMPONENTS.length}

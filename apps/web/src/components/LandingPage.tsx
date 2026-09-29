@@ -4,7 +4,7 @@ import {
   BarChart3,
   TrendingUp,
   Calendar,
-  Sparkles,
+  Bot,
   ArrowRight,
   ShieldCheck,
   Zap,
@@ -315,12 +315,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
             <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center shadow-xs">
               <BarChart3 className="w-4 h-4 text-white" />
             </div>
-            <div>
+            <div className="flex items-center gap-3">
               <span className="font-display font-semibold text-sm tracking-tight text-zinc-950">
                 Soundboard
-              </span>
-              <span className="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200">
-                AssemblyAI Hackathon
               </span>
             </div>
           </div>
@@ -358,30 +355,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
 
       {/* 2. HERO SECTION */}
       <section className="relative pt-16 pb-20 sm:pt-24 sm:pb-28 overflow-hidden bg-grid-pattern border-b border-zinc-200/60">
+        {/* Subtle radial ambient glow for depth */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[320px] bg-gradient-to-b from-zinc-200/40 via-zinc-100/20 to-transparent blur-3xl pointer-events-none -z-10 rounded-full" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          {/* Release Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-zinc-200/90 text-zinc-800 text-xs font-medium shadow-xs mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-            <span>Powered by AssemblyAI Streaming Voice Agent</span>
-            <span className="text-zinc-300">|</span>
-            <span className="text-zinc-500 font-mono text-[11px]">24 kHz PCM16</span>
-          </div>
-
-          {/* Headline */}
-          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-[6.25rem] font-normal tracking-[-0.02em] text-zinc-950 leading-[1.05] sm:leading-[1.02] mb-6">
-            Speak naturally. <br className="hidden sm:inline" />
-            <span className="italic text-zinc-400 font-normal">Watch your dashboard</span> build in real time.
+          {/* Headline: Premium Editorial Instrument Serif (3 lines) */}
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-normal tracking-[-0.025em] text-zinc-950 leading-[1.1] sm:leading-[1.05] mb-6 max-w-3xl mx-auto pt-6">
+            <span className="block">Talk to your data.</span>
+            <span className="block">Watch dashboards build</span>
+            <span className="block italic text-zinc-400 font-normal">at the speed of voice.</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl mx-auto text-base sm:text-lg text-zinc-600 leading-relaxed font-normal mb-10">
-            Say goodbye to static reports and rigid SQL builders. Soundboard lets you speak to live business data with full-duplex conversational voice—charts materialize, filter, and morph in milliseconds with zero LLM hallucination.
+          <p className="max-w-xl mx-auto text-base sm:text-lg text-zinc-600 leading-relaxed font-normal mb-10">
+            Speak naturally to your live business metrics. Full-duplex streaming voice with instant visual analytics and zero SQL hallucination.
           </p>
 
-          {/* Hero CTAs */}
+          {/* Hero CTAs: Streamlined to 2 clean actions */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-14">
             <button
               onClick={() => onLaunchApp()}
@@ -392,19 +381,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
               <ArrowRight className="w-4 h-4 text-zinc-400" />
             </button>
 
-            {onCreateDashboard && (
-              <button
-                onClick={onCreateDashboard}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 font-medium text-sm shadow-xs transition-colors"
-              >
-                <Plus className="w-4 h-4 text-zinc-600" />
-                <span>Create Dashboard</span>
-              </button>
-            )}
-
             <a
               href="#interactive-demo"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 font-medium text-sm shadow-xs transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 font-medium text-sm shadow-xs transition-colors"
             >
               <Zap className="w-4 h-4 text-zinc-500" />
               <span>Try Live Simulation</span>
@@ -439,8 +418,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
             Interactive Product Demo
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
-            Test the conversational turn-taking engine
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
+            Test the conversational <span className="italic text-zinc-400">turn-taking engine</span>
           </h2>
           <p className="text-xs sm:text-sm text-zinc-600 mt-2">
             Click any conversational command below to watch the voice client, semantic compiler, and live chart adapt in real-time.
@@ -524,7 +503,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
                   {/* Agent Bubble */}
                   <div className="flex flex-col items-start">
                     <div className="flex items-center gap-1 ml-1 mb-0.5">
-                      <Sparkles className="w-3 h-3 text-zinc-600" />
+                      <Bot className="w-3 h-3 text-zinc-600" />
                       <span className="text-[10px] text-zinc-500 font-medium">Ivy (AssemblyAI Agent)</span>
                     </div>
                     <div className="max-w-[92%] px-3.5 py-2.5 rounded-2xl bg-white text-zinc-800 text-xs border border-zinc-200 shadow-xs rounded-tl-xs leading-relaxed">
@@ -584,7 +563,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
 
               {/* Footer Insight Pill */}
               <div className="flex items-center gap-1.5 text-xs text-zinc-500 pt-3 border-t border-zinc-100 mt-4">
-                <Sparkles className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+                <TrendingUp className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
                 <span className="truncate">{activeScenario.insight}</span>
               </div>
             </div>
@@ -599,8 +578,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
             <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
               Engineering Architecture
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
-              Built for speed, accuracy, and zero hallucination
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
+              Built for speed, accuracy, and <span className="italic text-zinc-400">zero hallucination</span>
             </h2>
             <p className="text-sm text-zinc-600 mt-2">
               Every voice turn is engineered from first principles for low-latency streaming and deterministic database safety.
@@ -695,8 +674,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
             Evaluation Suite & Correctness
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
-            100% pass rate across 30 conversational benchmarks
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
+            100% pass rate across <span className="italic text-zinc-400">30 conversational benchmarks</span>
           </h2>
           <p className="text-sm text-zinc-600 mt-2">
             Automated regression harness tests edge cases, spoken ambiguity, multi-turn follow-ups, and out-of-scope refusals.
@@ -755,7 +734,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
             <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
               Prompt Library
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
               Spoken queries you can try right now
             </h2>
             <p className="text-sm text-zinc-600 mt-2">
@@ -803,7 +782,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
             Technical Flow
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-zinc-950 tracking-[-0.015em] mt-1.5">
             How natural voice turns into live visual metrics
           </h2>
           <p className="text-sm text-zinc-600 mt-2">
@@ -852,8 +831,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/10">
             <Mic className="w-6 h-6" />
           </div>
-          <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-[-0.02em] mb-4">
-            Ready to talk to your data?
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-[-0.02em] mb-4">
+            Ready to talk to your <span className="font-serif italic text-zinc-400">data?</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
             Experience the future of business intelligence. Speak your questions and watch live dashboards assemble before your eyes.
@@ -890,7 +869,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
             </div>
             <span className="font-semibold text-zinc-900">Soundboard</span>
             <span className="text-zinc-300">·</span>
-            <span>AssemblyAI Voice Agent Hackathon (2026)</span>
+            <span>Conversational Voice Analytics</span>
           </div>
 
           <div className="flex items-center gap-6">

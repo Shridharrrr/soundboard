@@ -7,8 +7,19 @@ dist/
 build/
 **/*.tsbuildinfo
 
-# Database persistence & embedded data
+# Database persistence & embedded data (pglite)
 .pglite_data/
+.pglite/
+*pglite*/
+*.pglite
+
+# Documentation
+docs/
+
+# Markdown files
+*.md
+**/*.md
+
 
 # Environment files
 .env

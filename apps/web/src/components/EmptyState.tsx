@@ -7,7 +7,6 @@ import {
   ArrowRight,
   LayoutTemplate,
   Plus,
-  Sparkles,
   PieChart,
 } from 'lucide-react';
 import { useDashboardStore } from '../store/dashboard.js';
@@ -112,7 +111,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           onClick={() => handleAddStarterPack('executive')}
           className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium shadow-2xs transition-colors"
         >
-          <Sparkles className="w-3.5 h-3.5 text-zinc-600" />
+          <LayoutTemplate className="w-3.5 h-3.5 text-zinc-600" />
           <span>Load Executive Suite</span>
         </button>
       </div>

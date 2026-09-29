@@ -23,7 +23,7 @@ import {
   Mic,
   MicOff,
   Send,
-  Sparkles,
+  Bot,
   AlertTriangle,
   Play,
   Square,
@@ -230,7 +230,7 @@ export const App: React.FC = () => {
               <h1 className="font-semibold text-xs tracking-tight text-zinc-900 leading-tight">
                 Soundboard
               </h1>
-              <p className="text-[10px] text-zinc-400 font-medium">AssemblyAI Voice Agent</p>
+              <p className="text-[10px] text-zinc-400 font-medium">Voice Analytics Studio</p>
             </div>
           </div>
 
@@ -261,7 +261,7 @@ export const App: React.FC = () => {
         <div className="flex-1 flex flex-col min-h-0 bg-zinc-50/70 rounded-xl border border-zinc-200/80 overflow-hidden">
           <div className="px-3 py-1.5 bg-white border-b border-zinc-200/80 text-[11px] font-medium text-zinc-500 flex items-center justify-between">
             <div className="flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-zinc-500" />
+              <Bot className="w-3 h-3 text-zinc-500" />
               <span>Transcript</span>
             </div>
             <span className="text-[10px] text-zinc-400 font-mono">24 kHz PCM</span>

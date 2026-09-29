@@ -1,6 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&display=swap');
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zATiw.ttf') format('truetype');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-serif {
+  font-family: 'Instrument Serif', Georgia, serif !important;
+}
 
 @layer base {
   * {
@@ -43,10 +65,10 @@
   border-color: rgba(24, 24, 27, 0.14);
 }
 
-/* Subtle background grid */
+/* Ultra-subtle, spacious architectural grid */
 .bg-grid-pattern {
-  background-size: 24px 24px;
+  background-size: 48px 48px;
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
 }

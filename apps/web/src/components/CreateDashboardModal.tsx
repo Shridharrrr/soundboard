@@ -6,7 +6,6 @@ import {
   Layout,
   BarChart3,
   TrendingUp,
-  Sparkles,
   ArrowRight,
   CheckCircle2,
 } from 'lucide-react';
@@ -30,7 +29,7 @@ const TEMPLATES: TemplateOption[] = [
     id: 'blank',
     name: 'Blank Canvas (Voice First)',
     description: 'Clean workspace ready for your spoken questions and real-time visualization.',
-    icon: Sparkles,
+    icon: Layout,
     charts: [],
   },
   {
@@ -152,7 +151,7 @@ export const CreateDashboardModal: React.FC<CreateDashboardModalProps> = ({
               <Layout className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-display font-semibold text-sm text-zinc-950">Create New Dashboard</h2>
+              <h2 className="font-serif font-normal text-xl text-zinc-950 tracking-[-0.01em]">Create New Dashboard</h2>
               <p className="text-xs text-zinc-500">Add a dedicated workspace to organize metrics</p>
             </div>
           </div>
