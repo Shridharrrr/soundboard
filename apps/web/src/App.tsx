@@ -13,7 +13,6 @@ import { TranscriptLog } from './components/TranscriptLog.js';
 import { ChartCard } from './components/ChartCard.js';
 import { GlobalFilterBar } from './components/GlobalFilterBar.js';
 import { EmptyState } from './components/EmptyState.js';
-import { ManualToolConsole } from './components/ManualToolConsole.js';
 import { LandingPage } from './components/LandingPage.js';
 import { CreateDashboardModal } from './components/CreateDashboardModal.js';
 import { AddComponentModal } from './components/AddComponentModal.js';
@@ -229,7 +228,7 @@ export const App: React.FC = () => {
             </div>
             <div>
               <h1 className="font-semibold text-xs tracking-tight text-zinc-900 leading-tight">
-                Talk to Your Data
+                Soundboard
               </h1>
               <p className="text-[10px] text-zinc-400 font-medium">AssemblyAI Voice Agent</p>
             </div>
@@ -329,9 +328,6 @@ export const App: React.FC = () => {
               <span>{isMuted ? 'Muted' : 'Mute'}</span>
             </button>
           </div>
-
-          {/* Dev Manual Tool Console */}
-          <ManualToolConsole />
         </div>
       </aside>
 

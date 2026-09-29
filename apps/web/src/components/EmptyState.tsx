@@ -89,7 +89,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       </div>
 
       {/* Header */}
-      <h2 className="text-xl font-bold font-display text-zinc-950 tracking-tight mb-2">
+      <h2 className="text-2xl font-normal font-serif text-zinc-950 tracking-[-0.015em] mb-2">
         Build Your Intelligent Dashboard
       </h2>
       <p className="text-xs text-zinc-500 mb-6 max-w-md leading-relaxed">
