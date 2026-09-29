@@ -14,6 +14,7 @@ import { ChartCard } from './components/ChartCard.js';
 import { GlobalFilterBar } from './components/GlobalFilterBar.js';
 import { EmptyState } from './components/EmptyState.js';
 import { ManualToolConsole } from './components/ManualToolConsole.js';
+import { LandingPage } from './components/LandingPage.js';
 import { fetchSchema, exportMetabase } from './lib/api.js';
 import {
   Mic,
@@ -24,12 +25,16 @@ import {
   Play,
   Square,
   BarChart2,
+  ArrowLeft,
 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 
 export const App: React.FC = () => {
   const store = useDashboardStore();
 
+  const [currentView, setCurrentView] = useState<'landing' | 'app'>(() => {
+    return window.location.hash === '#/app' ? 'app' : 'landing';
+  });
   const [voiceState, setVoiceState] = useState<VoiceState>('Idle');
   const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([]);
   const [toolChips, setToolChips] = useState<ToolChip[]>([]);
@@ -148,7 +153,34 @@ export const App: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentView(window.location.hash === '#/app' ? 'app' : 'landing');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const handleLaunchApp = (promptPhrase?: string) => {
+    setCurrentView('app');
+    window.location.hash = '#/app';
+    if (promptPhrase) {
+      setTimeout(() => {
+        handleSelectPromptPhrase(promptPhrase);
+      }, 100);
+    }
+  };
+
+  const handleReturnToLanding = () => {
+    setCurrentView('landing');
+    window.location.hash = '#/';
+  };
+
   const currentLevel = voiceState === 'Speaking' ? outputLevel : micLevel;
+
+  if (currentView === 'landing') {
+    return <LandingPage onLaunchApp={handleLaunchApp} />;
+  }
 
   return (
     <div className="flex h-screen w-full bg-[#fafafa] text-zinc-900 overflow-hidden font-sans">
@@ -156,9 +188,16 @@ export const App: React.FC = () => {
       <aside className="w-[370px] flex-shrink-0 bg-white border-r border-zinc-200/90 flex flex-col justify-between p-4 gap-3 shadow-xs">
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-zinc-900 flex items-center justify-center shadow-xs">
-              <BarChart2 className="w-4 h-4 text-white" />
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleReturnToLanding}
+              title="Back to Overview"
+              className="p-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-100 text-zinc-600 transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+            </button>
+            <div className="w-6 h-6 rounded-md bg-zinc-900 flex items-center justify-center shadow-xs">
+              <BarChart2 className="w-3.5 h-3.5 text-white" />
             </div>
             <div>
               <h1 className="font-semibold text-xs tracking-tight text-zinc-900 leading-tight">
