@@ -3,43 +3,50 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply border-zinc-200;
+  }
+
   body {
-    @apply bg-dark-900 text-slate-100 min-h-screen overflow-x-hidden font-sans;
+    @apply bg-[#fafafa] text-zinc-900 min-h-screen overflow-x-hidden font-sans antialiased;
+    letter-spacing: -0.011em;
   }
 }
 
-/* Custom sleek scrollbar */
+/* Crisp minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f131a;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #232b40;
-  border-radius: 3px;
+  background: #e4e4e7;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #343f5c;
+  background: #d4d4d8;
 }
 
-/* Glassmorphism helpers */
-.glass-panel {
-  background: rgba(20, 24, 36, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Modern Card & Panel Utilities (Vercel / shadcn style) */
+.ui-card {
+  background: #ffffff;
+  border: 1px solid rgba(24, 24, 27, 0.08);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
 }
 
-.glass-panel-subtle {
-  background: rgba(15, 19, 26, 0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+.ui-card:hover {
+  border-color: rgba(24, 24, 27, 0.14);
 }
 
-.glow-brand {
-  box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.3);
+/* Subtle background grid */
+.bg-grid-pattern {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
 }

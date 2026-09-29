@@ -23,7 +23,7 @@ import {
   AlertTriangle,
   Play,
   Square,
-  HelpCircle,
+  BarChart2,
 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 
@@ -43,7 +43,6 @@ export const App: React.FC = () => {
 
   const voiceClientRef = useRef<VoiceClient | null>(null);
 
-  // Initialize Voice Client and check backend schema/metabase
   useEffect(() => {
     fetchSchema()
       .then(schema => {
@@ -68,7 +67,6 @@ export const App: React.FC = () => {
 
     voiceClientRef.current = client;
 
-    // Spacebar to mute shortcut
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Space' && (e.target as HTMLElement).tagName !== 'INPUT' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
         if (voiceClientRef.current && voiceClientRef.current.getState() !== 'Idle') {
@@ -112,14 +110,13 @@ export const App: React.FC = () => {
     if (voiceClientRef.current && voiceClientRef.current.getState() !== 'Idle') {
       voiceClientRef.current.sendTextMessage(val);
     } else {
-      // Offline fallback: prompt user to start voice or use manual tool console
       setTranscripts(prev => [
         ...prev,
         { id: `u-${Date.now()}`, role: 'user', text: val, isFinal: true },
         {
           id: `a-${Date.now()}`,
           role: 'agent',
-          text: 'Voice agent is currently idle. Click "Start Voice" above to talk live, or use the Manual Tool Console below to run dashboard tools without an AssemblyAI API session.',
+          text: 'Voice agent is currently idle. Click "Start Voice" above to speak live, or run actions using the Manual Tool Console below.',
           isFinal: true,
         },
       ]);
@@ -154,37 +151,37 @@ export const App: React.FC = () => {
   const currentLevel = voiceState === 'Speaking' ? outputLevel : micLevel;
 
   return (
-    <div className="flex h-screen w-full bg-dark-900 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-full bg-[#fafafa] text-zinc-900 overflow-hidden font-sans">
       {/* LEFT COLUMN: Voice Session, Waveform, Transcript, Tools */}
-      <aside className="w-[380px] flex-shrink-0 bg-dark-850 border-r border-slate-800 flex flex-col justify-between p-4 gap-3">
+      <aside className="w-[370px] flex-shrink-0 bg-white border-r border-zinc-200/90 flex flex-col justify-between p-4 gap-3 shadow-xs">
         {/* Header */}
-        <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 to-cyan-500 flex items-center justify-center shadow-md">
-              <Sparkles className="w-4 h-4 text-white" />
+        <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-zinc-900 flex items-center justify-center shadow-xs">
+              <BarChart2 className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-sm tracking-tight text-white leading-tight">
+              <h1 className="font-semibold text-xs tracking-tight text-zinc-900 leading-tight">
                 Talk to Your Data
               </h1>
-              <p className="text-[10px] text-slate-400 font-medium">AssemblyAI Voice Agent</p>
+              <p className="text-[10px] text-zinc-400 font-medium">AssemblyAI Voice Agent</p>
             </div>
           </div>
 
           <StatePill state={voiceState} />
         </div>
 
-        {/* Error notification banner if any */}
+        {/* Error notification banner */}
         {errorMessage && (
-          <div className="flex items-start gap-2 p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
-            <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2 p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs">
+            <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-rose-600" />
             <div className="flex-1">
-              <p className="font-semibold">Notice</p>
-              <p className="text-[11px] text-rose-300/90 leading-tight mt-0.5">{errorMessage}</p>
+              <p className="font-medium text-[11px]">Notice</p>
+              <p className="text-[11px] text-rose-700 leading-tight mt-0.5">{errorMessage}</p>
             </div>
             <button
               onClick={() => setErrorMessage(null)}
-              className="text-rose-400 hover:text-white text-xs"
+              className="text-rose-500 hover:text-rose-800 text-xs"
             >
               ✕
             </button>
@@ -195,34 +192,37 @@ export const App: React.FC = () => {
         <Waveform level={currentLevel} state={voiceState} />
 
         {/* Live Conversation Transcript */}
-        <div className="flex-1 flex flex-col min-h-0 bg-dark-900/60 rounded-xl border border-slate-800/80 overflow-hidden">
-          <div className="px-3 py-1.5 bg-dark-800/60 border-b border-slate-800 text-[11px] font-semibold text-slate-400 flex items-center justify-between">
-            <span>Live Transcript</span>
-            <span className="text-[10px] text-slate-500 font-mono">24 kHz PCM</span>
+        <div className="flex-1 flex flex-col min-h-0 bg-zinc-50/70 rounded-xl border border-zinc-200/80 overflow-hidden">
+          <div className="px-3 py-1.5 bg-white border-b border-zinc-200/80 text-[11px] font-medium text-zinc-500 flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Sparkles className="w-3 h-3 text-zinc-500" />
+              <span>Transcript</span>
+            </div>
+            <span className="text-[10px] text-zinc-400 font-mono">24 kHz PCM</span>
           </div>
           <TranscriptLog entries={transcripts} />
         </div>
 
         {/* Tool Chips Log */}
         <div className="flex flex-col gap-1">
-          <span className="text-[11px] font-semibold text-slate-400 px-1">Tool Execution</span>
+          <span className="text-[11px] font-medium text-zinc-500 px-1">Tool Execution</span>
           <ToolChipsLog chips={toolChips} />
         </div>
 
         {/* Text Input Fallback & Action Controls */}
-        <div className="flex flex-col gap-2 pt-2 border-t border-slate-800/80">
+        <div className="flex flex-col gap-2 pt-2 border-t border-zinc-100">
           <form onSubmit={handleSendText} className="relative flex items-center">
             <input
               type="text"
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
-              placeholder={voiceState === 'Idle' ? 'Type a command or test phrase...' : 'Speak or type here...'}
-              className="w-full pl-3 pr-10 py-2 rounded-lg bg-dark-900 border border-slate-800 focus:outline-none focus:border-brand-500 text-xs text-slate-200 placeholder:text-slate-500"
+              placeholder={voiceState === 'Idle' ? 'Type a question or command...' : 'Speak or type here...'}
+              className="w-full pl-3 pr-10 py-2 rounded-lg bg-white border border-zinc-200 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 shadow-xs"
             />
             <button
               type="submit"
               disabled={!textInput.trim()}
-              className="absolute right-1.5 p-1.5 rounded-md bg-brand-600 hover:bg-brand-500 text-white disabled:opacity-30 disabled:pointer-events-none transition-colors"
+              className="absolute right-1.5 p-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 text-white disabled:opacity-30 disabled:pointer-events-none transition-colors"
             >
               <Send className="w-3.5 h-3.5" />
             </button>
@@ -233,17 +233,17 @@ export const App: React.FC = () => {
             {voiceState === 'Idle' ? (
               <button
                 onClick={handleStartVoice}
-                className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-xs transition-all active:scale-[0.98]"
               >
-                <Play className="w-3.5 h-3.5 fill-current" />
+                <Play className="w-3 h-3 fill-current" />
                 <span>Start Voice</span>
               </button>
             ) : (
               <button
                 onClick={handleStopVoice}
-                className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold shadow-lg shadow-rose-600/20 transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-medium shadow-xs transition-all active:scale-[0.98]"
               >
-                <Square className="w-3.5 h-3.5 fill-current" />
+                <Square className="w-3 h-3 fill-current" />
                 <span>Stop Session</span>
               </button>
             )}
@@ -252,10 +252,10 @@ export const App: React.FC = () => {
               onClick={handleToggleMute}
               disabled={voiceState === 'Idle'}
               title="Toggle Mic (Space)"
-              className={`px-3 py-2 rounded-lg border text-xs font-medium flex items-center gap-1.5 transition-colors ${
+              className={`px-3 py-2 rounded-lg border text-xs font-medium flex items-center gap-1.5 shadow-xs transition-all active:scale-[0.98] ${
                 isMuted
-                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-300'
-                  : 'bg-dark-800 border-slate-700/80 text-slate-300 hover:text-white'
+                  ? 'bg-rose-50 border-rose-200 text-rose-700'
+                  : 'bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50'
               } disabled:opacity-40 disabled:pointer-events-none`}
             >
               {isMuted ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
@@ -263,14 +263,14 @@ export const App: React.FC = () => {
             </button>
           </div>
 
-          {/* Dev Manual Tool Console Drawer */}
+          {/* Dev Manual Tool Console */}
           <ManualToolConsole />
         </div>
       </aside>
 
       {/* RIGHT MAIN AREA: Top Bar & Dashboard Grid */}
-      <main className="flex-1 flex flex-col min-w-0 bg-dark-900 overflow-y-auto">
-        <header className="sticky top-0 z-10 p-4 bg-dark-900/90 backdrop-blur-md border-b border-slate-800/80">
+      <main className="flex-1 flex flex-col min-w-0 bg-[#fafafa] overflow-y-auto">
+        <header className="sticky top-0 z-10 p-4 bg-[#fafafa]/90 backdrop-blur-md border-b border-zinc-200/60">
           <GlobalFilterBar
             filters={store.global_filters}
             canUndo={store.history.length > 0}
@@ -286,7 +286,7 @@ export const App: React.FC = () => {
           {store.charts.length === 0 ? (
             <EmptyState onSelectPrompt={handleSelectPromptPhrase} />
           ) : (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 max-w-[1600px] mx-auto">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 max-w-[1600px] mx-auto">
               <AnimatePresence>
                 {store.charts.map((chart) => (
                   <ChartCard

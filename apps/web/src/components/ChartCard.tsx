@@ -20,7 +20,7 @@ import {
 import {
   TrendingUp,
   TrendingDown,
-  Code,
+  Code2,
   Trash2,
   Filter as FilterIcon,
   Sparkles,
@@ -37,7 +37,7 @@ interface ChartCardProps {
   onRemove: (id: string) => void;
 }
 
-const PALETTE = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#14b8a6', '#f43f5e'];
+const PALETTE = ['#18181b', '#4f46e5', '#0284c7', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#64748b'];
 
 function formatMetricValue(val: number | string | null | undefined, format?: string): string {
   if (val === null || val === undefined) return '-';
@@ -82,20 +82,20 @@ export const ChartCard: React.FC<ChartCardProps> = ({
   const hasComparison = chartData.some(d => d.comparison_value !== undefined);
   const metricFormat = result?.metric?.format;
 
-  // Render chart body
+  // Render chart body in sleek light theme
   const renderChartGraphic = () => {
     if (loading) {
       return (
-        <div className="h-64 flex flex-col items-center justify-center gap-2">
-          <div className="w-8 h-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin" />
-          <span className="text-xs text-slate-400">Loading data...</span>
+        <div className="h-60 flex flex-col items-center justify-center gap-2">
+          <div className="w-6 h-6 rounded-full border-2 border-zinc-900 border-t-transparent animate-spin" />
+          <span className="text-[11px] text-zinc-400">Loading data...</span>
         </div>
       );
     }
 
     if (chartData.length === 0) {
       return (
-        <div className="h-64 flex items-center justify-center text-xs text-slate-500 italic">
+        <div className="h-60 flex items-center justify-center text-xs text-zinc-400 italic">
           No records matched the current query criteria
         </div>
       );
@@ -104,7 +104,7 @@ export const ChartCard: React.FC<ChartCardProps> = ({
     switch (chart.chart_type) {
       case 'donut':
         return (
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={240}>
             <PieChart>
               <Pie
                 data={chartData}
@@ -114,42 +114,56 @@ export const ChartCard: React.FC<ChartCardProps> = ({
                 cy="50%"
                 innerRadius={55}
                 outerRadius={85}
-                paddingAngle={4}
+                paddingAngle={3}
               >
                 {chartData.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={PALETTE[index % PALETTE.length]} />
                 ))}
               </Pie>
               <Tooltip
-                contentStyle={{ backgroundColor: '#141824', borderColor: '#232b40', borderRadius: '8px' }}
+                contentStyle={{
+                  backgroundColor: '#ffffff',
+                  borderColor: '#e4e4e7',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                  fontSize: '11px',
+                  color: '#18181b',
+                }}
                 formatter={(val: any) => [formatMetricValue(val, metricFormat), result?.metric?.label || 'Value']}
               />
-              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />
             </PieChart>
           </ResponsiveContainer>
         );
 
       case 'area':
         return (
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={240}>
             <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
               <defs>
                 <linearGradient id={`grad-${chart.id}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.6} />
-                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#18181b" stopOpacity={0.15} />
+                  <stop offset="95%" stopColor="#18181b" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1f293d" vertical={false} />
-              <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 11 }} />
-              <YAxis stroke="#64748b" tick={{ fontSize: 11 }} tickFormatter={v => formatMetricValue(v, metricFormat)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#f4f4f5" vertical={false} />
+              <XAxis dataKey="name" stroke="#a1a1aa" tick={{ fontSize: 11 }} tickLine={false} axisLine={{ stroke: '#e4e4e7' }} />
+              <YAxis stroke="#a1a1aa" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => formatMetricValue(v, metricFormat)} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#141824', borderColor: '#232b40', borderRadius: '8px' }}
+                contentStyle={{
+                  backgroundColor: '#ffffff',
+                  borderColor: '#e4e4e7',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                  fontSize: '11px',
+                  color: '#18181b',
+                }}
                 formatter={(val: any) => [formatMetricValue(val, metricFormat), result?.metric?.label || 'Value']}
               />
-              {hasComparison && <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />}
-              <Area type="monotone" dataKey="value" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill={`url(#grad-${chart.id})`} name={result?.metric?.label || 'Current'} />
+              {hasComparison && <Legend wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />}
+              <Area type="monotone" dataKey="value" stroke="#18181b" strokeWidth={2} fillOpacity={1} fill={`url(#grad-${chart.id})`} name={result?.metric?.label || 'Current'} />
               {hasComparison && (
-                <Area type="monotone" dataKey="comparison_value" stroke="#06b6d4" strokeDasharray="4 4" strokeWidth={2} fillOpacity={0} name="Comparison" />
+                <Area type="monotone" dataKey="comparison_value" stroke="#0284c7" strokeDasharray="4 4" strokeWidth={2} fillOpacity={0} name="Comparison" />
               )}
             </AreaChart>
           </ResponsiveContainer>
@@ -157,19 +171,26 @@ export const ChartCard: React.FC<ChartCardProps> = ({
 
       case 'line':
         return (
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={240}>
             <LineChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1f293d" vertical={false} />
-              <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 11 }} />
-              <YAxis stroke="#64748b" tick={{ fontSize: 11 }} tickFormatter={v => formatMetricValue(v, metricFormat)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#f4f4f5" vertical={false} />
+              <XAxis dataKey="name" stroke="#a1a1aa" tick={{ fontSize: 11 }} tickLine={false} axisLine={{ stroke: '#e4e4e7' }} />
+              <YAxis stroke="#a1a1aa" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => formatMetricValue(v, metricFormat)} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#141824', borderColor: '#232b40', borderRadius: '8px' }}
+                contentStyle={{
+                  backgroundColor: '#ffffff',
+                  borderColor: '#e4e4e7',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                  fontSize: '11px',
+                  color: '#18181b',
+                }}
                 formatter={(val: any) => [formatMetricValue(val, metricFormat), result?.metric?.label || 'Value']}
               />
-              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
-              <Line type="monotone" dataKey="value" stroke="#818cf8" strokeWidth={2.5} dot={{ r: 3, fill: '#818cf8' }} activeDot={{ r: 6 }} name={result?.metric?.label || 'Current'} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />
+              <Line type="monotone" dataKey="value" stroke="#18181b" strokeWidth={2.25} dot={{ r: 3, fill: '#18181b' }} activeDot={{ r: 5 }} name={result?.metric?.label || 'Current'} />
               {hasComparison && (
-                <Line type="monotone" dataKey="comparison_value" stroke="#06b6d4" strokeWidth={2} strokeDasharray="4 4" dot={{ r: 2, fill: '#06b6d4' }} name="Comparison" />
+                <Line type="monotone" dataKey="comparison_value" stroke="#0284c7" strokeWidth={2} strokeDasharray="4 4" dot={{ r: 2, fill: '#0284c7' }} name="Comparison" />
               )}
             </LineChart>
           </ResponsiveContainer>
@@ -179,19 +200,26 @@ export const ChartCard: React.FC<ChartCardProps> = ({
       case 'stacked_bar':
       default:
         return (
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={240}>
             <BarChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1f293d" vertical={false} />
-              <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 11 }} />
-              <YAxis stroke="#64748b" tick={{ fontSize: 11 }} tickFormatter={v => formatMetricValue(v, metricFormat)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#f4f4f5" vertical={false} />
+              <XAxis dataKey="name" stroke="#a1a1aa" tick={{ fontSize: 11 }} tickLine={false} axisLine={{ stroke: '#e4e4e7' }} />
+              <YAxis stroke="#a1a1aa" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => formatMetricValue(v, metricFormat)} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#141824', borderColor: '#232b40', borderRadius: '8px' }}
+                contentStyle={{
+                  backgroundColor: '#ffffff',
+                  borderColor: '#e4e4e7',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                  fontSize: '11px',
+                  color: '#18181b',
+                }}
                 formatter={(val: any) => [formatMetricValue(val, metricFormat), result?.metric?.label || 'Value']}
               />
-              {hasComparison && <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />}
-              <Bar dataKey="value" fill="#6366f1" radius={[4, 4, 0, 0]} name={result?.metric?.label || 'Current'} />
+              {hasComparison && <Legend wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />}
+              <Bar dataKey="value" fill="#18181b" radius={[4, 4, 0, 0]} name={result?.metric?.label || 'Current'} />
               {hasComparison && (
-                <Bar dataKey="comparison_value" fill="#06b6d4" opacity={0.7} radius={[4, 4, 0, 0]} name="Comparison" />
+                <Bar dataKey="comparison_value" fill="#0284c7" opacity={0.8} radius={[4, 4, 0, 0]} name="Comparison" />
               )}
             </BarChart>
           </ResponsiveContainer>
@@ -226,32 +254,36 @@ export const ChartCard: React.FC<ChartCardProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.25 }}
-      className={`glass-panel rounded-xl p-4 flex flex-col gap-3 relative transition-all duration-300 ${
-        isHighlighted ? 'border-brand-500 shadow-[0_0_20px_rgba(99,102,241,0.25)]' : 'border-slate-800'
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.2 }}
+      className={`bg-white rounded-xl p-4 flex flex-col gap-3 relative transition-all duration-200 border ${
+        isHighlighted
+          ? 'border-zinc-900 shadow-md ring-2 ring-zinc-900/10'
+          : 'border-zinc-200/90 shadow-xs hover:shadow-subtle hover:border-zinc-300'
       }`}
     >
       {/* Header */}
-      <div className="flex items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-dark-750 text-slate-400 border border-slate-700/50">
+            <span className="text-[10px] font-mono font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-500 border border-zinc-200">
               {chart.id}
             </span>
-            <h3 className="font-semibold text-sm text-slate-100 truncate">{chart.title}</h3>
+            <h3 className="font-semibold text-xs text-zinc-900 truncate tracking-tight">
+              {chart.title}
+            </h3>
           </div>
 
           {/* Metadata Chips */}
-          <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+          <div className="flex flex-wrap items-center gap-1 text-[11px] text-zinc-500 mt-0.5">
             {chart.time_granularity && (
               <span
-                className={`px-2 py-0.5 rounded-full border ${
+                className={`px-2 py-0.5 rounded-full border transition-all ${
                   highlightedProperty === 'granularity'
-                    ? 'bg-brand-500/20 text-brand-300 border-brand-400 animate-pulse'
-                    : 'bg-dark-800 border-slate-700/60'
+                    ? 'bg-zinc-900 text-white border-zinc-900'
+                    : 'bg-zinc-50 border-zinc-200 text-zinc-600'
                 }`}
               >
                 {chart.time_granularity}ly
@@ -260,10 +292,10 @@ export const ChartCard: React.FC<ChartCardProps> = ({
 
             {chart.group_by && (
               <span
-                className={`px-2 py-0.5 rounded-full border ${
+                className={`px-2 py-0.5 rounded-full border transition-all ${
                   highlightedProperty === 'group_by'
-                    ? 'bg-brand-500/20 text-brand-300 border-brand-400 animate-pulse'
-                    : 'bg-dark-800 border-slate-700/60'
+                    ? 'bg-zinc-900 text-white border-zinc-900'
+                    : 'bg-zinc-50 border-zinc-200 text-zinc-600'
                 }`}
               >
                 by {chart.group_by}
@@ -273,23 +305,23 @@ export const ChartCard: React.FC<ChartCardProps> = ({
             {chart.filters.map(f => (
               <span
                 key={f.dimension}
-                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border ${
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border transition-all ${
                   highlightedProperty === 'filters'
-                    ? 'bg-brand-500/20 text-brand-300 border-brand-400 animate-pulse'
-                    : 'bg-dark-800 border-slate-700/60'
+                    ? 'bg-zinc-900 text-white border-zinc-900'
+                    : 'bg-zinc-50 border-zinc-200 text-zinc-600'
                 }`}
               >
-                <FilterIcon className="w-2.5 h-2.5 text-brand-400" />
+                <FilterIcon className="w-2.5 h-2.5 text-zinc-400" />
                 {f.dimension}: {f.values.join('/')}
               </span>
             ))}
 
             {chart.compare_to !== 'none' && (
               <span
-                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border ${
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border transition-all ${
                   highlightedProperty === 'comparison'
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 animate-pulse'
-                    : 'bg-dark-800 border-slate-700/60 text-cyan-400'
+                    ? 'bg-zinc-900 text-white border-zinc-900'
+                    : 'bg-sky-50 border-sky-200 text-sky-700'
                 }`}
               >
                 <Calendar className="w-2.5 h-2.5" />
@@ -300,13 +332,13 @@ export const ChartCard: React.FC<ChartCardProps> = ({
         </div>
 
         {/* Action Controls & Delta Badge */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-1.5 flex-shrink-0">
           {deltaPct !== undefined && (
             <div
-              className={`flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full border ${
+              className={`flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border ${
                 isPositiveDelta
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                  : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : 'bg-rose-50 text-rose-700 border-rose-200'
               }`}
             >
               {isPositiveDelta ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
@@ -316,27 +348,27 @@ export const ChartCard: React.FC<ChartCardProps> = ({
 
           <button
             onClick={() => setShowSql(!showSql)}
-            title="Toggle SQL"
-            className={`p-1.5 rounded-md border text-xs transition-colors ${
+            title="Inspect compiled SQL"
+            className={`p-1.5 rounded-lg border text-xs transition-colors ${
               showSql
-                ? 'bg-brand-500/20 border-brand-500/40 text-brand-300'
-                : 'bg-dark-800 border-slate-700/60 text-slate-400 hover:text-slate-200'
+                ? 'bg-zinc-900 border-zinc-900 text-white'
+                : 'bg-white border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'
             }`}
           >
-            <Code className="w-3.5 h-3.5" />
+            <Code2 className="w-3.5 h-3.5" />
           </button>
 
           <button
             onClick={() => onRemove(chart.id)}
             title="Remove chart"
-            className="p-1.5 rounded-md bg-dark-800 border border-slate-700/60 text-slate-400 hover:text-rose-400 hover:border-rose-500/40 transition-colors"
+            className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-400 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50/50 transition-colors"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* SQL Block Toggle */}
+      {/* SQL Drawer */}
       <AnimatePresence>
         {showSql && result?.sql && (
           <motion.div
@@ -345,9 +377,11 @@ export const ChartCard: React.FC<ChartCardProps> = ({
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <pre className="p-2.5 rounded-lg bg-dark-900 border border-slate-800 text-[11px] font-mono text-cyan-300/90 overflow-x-auto selection:bg-brand-600">
-              <code>{result.sql}</code>
-            </pre>
+            <div className="relative group">
+              <pre className="p-3 rounded-lg bg-zinc-950 text-zinc-300 font-mono text-[11px] leading-relaxed overflow-x-auto border border-zinc-800">
+                <code>{result.sql}</code>
+              </pre>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -356,8 +390,8 @@ export const ChartCard: React.FC<ChartCardProps> = ({
       <div className="mt-1">{renderChartGraphic()}</div>
 
       {/* Footer Insight */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-400 pt-2 border-t border-slate-800/80">
-        <Sparkles className="w-3.5 h-3.5 text-brand-400 flex-shrink-0" />
+      <div className="flex items-center gap-1.5 text-xs text-zinc-600 pt-2.5 border-t border-zinc-100">
+        <Sparkles className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
         <span className="truncate">{renderInsightText() || 'Generating insights...'}</span>
       </div>
     </motion.div>

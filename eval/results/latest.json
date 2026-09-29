@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-09-29T09:24:18.269Z",
+  "timestamp": "2026-09-29T09:38:59.153Z",
   "overallAccuracy": 100,
   "totalCases": 30,
   "passedCount": 30,
-  "medianLatencyMs": 58,
-  "p95LatencyMs": 137,
+  "medianLatencyMs": 74,
+  "p95LatencyMs": 215,
   "categoryBreakdown": {
     "basic": {
       "total": 8,
@@ -40,7 +40,7 @@
       "id": "basic-01",
       "category": "basic",
       "passed": true,
-      "durationMs": 39,
+      "durationMs": 215,
       "utterances": [
         "show revenue by region for Q3"
       ],
@@ -51,7 +51,7 @@
       "id": "basic-02",
       "category": "basic",
       "passed": true,
-      "durationMs": 42,
+      "durationMs": 112,
       "utterances": [
         "show orders monthly for Electronics"
       ],
@@ -62,7 +62,7 @@
       "id": "basic-03",
       "category": "basic",
       "passed": true,
-      "durationMs": 54,
+      "durationMs": 83,
       "utterances": [
         "average order value by channel this year"
       ],
@@ -73,7 +73,7 @@
       "id": "basic-04",
       "category": "basic",
       "passed": true,
-      "durationMs": 13,
+      "durationMs": 27,
       "utterances": [
         "how many unique customers in the West last month"
       ],
@@ -84,7 +84,7 @@
       "id": "basic-05",
       "category": "basic",
       "passed": true,
-      "durationMs": 13,
+      "durationMs": 19,
       "utterances": [
         "units sold daily for the last 7 days"
       ],
@@ -95,7 +95,7 @@
       "id": "basic-06",
       "category": "basic",
       "passed": true,
-      "durationMs": 28,
+      "durationMs": 35,
       "utterances": [
         "revenue by category for Q2 2026"
       ],
@@ -106,7 +106,7 @@
       "id": "basic-07",
       "category": "basic",
       "passed": true,
-      "durationMs": 14,
+      "durationMs": 32,
       "utterances": [
         "show orders by channel for this month"
       ],
@@ -117,7 +117,7 @@
       "id": "basic-08",
       "category": "basic",
       "passed": true,
-      "durationMs": 30,
+      "durationMs": 54,
       "utterances": [
         "total sales year to date"
       ],
@@ -128,7 +128,7 @@
       "id": "edit-01",
       "category": "edit",
       "passed": true,
-      "durationMs": 72,
+      "durationMs": 96,
       "utterances": [
         "show revenue by region for Q3",
         "make it weekly"
@@ -140,7 +140,7 @@
       "id": "edit-02",
       "category": "edit",
       "passed": true,
-      "durationMs": 143,
+      "durationMs": 229,
       "utterances": [
         "show revenue monthly for this year",
         "display as a bar chart"
@@ -152,7 +152,7 @@
       "id": "edit-03",
       "category": "edit",
       "passed": true,
-      "durationMs": 73,
+      "durationMs": 131,
       "utterances": [
         "revenue by region for this quarter",
         "compare to last year"
@@ -164,7 +164,7 @@
       "id": "edit-04",
       "category": "edit",
       "passed": true,
-      "durationMs": 94,
+      "durationMs": 137,
       "utterances": [
         "show orders by region this year",
         "change metric to revenue"
@@ -176,7 +176,7 @@
       "id": "edit-05",
       "category": "edit",
       "passed": true,
-      "durationMs": 58,
+      "durationMs": 73,
       "utterances": [
         "revenue by category this month",
         "compare to previous period"
@@ -188,7 +188,7 @@
       "id": "edit-06",
       "category": "edit",
       "passed": true,
-      "durationMs": 111,
+      "durationMs": 169,
       "utterances": [
         "orders by channel this year",
         "change to quarterly"
@@ -200,7 +200,7 @@
       "id": "correction-01",
       "category": "correction",
       "passed": true,
-      "durationMs": 68,
+      "durationMs": 109,
       "utterances": [
         "show revenue by region for Q3",
         "no, weekly not monthly"
@@ -212,7 +212,7 @@
       "id": "correction-02",
       "category": "correction",
       "passed": true,
-      "durationMs": 75,
+      "durationMs": 94,
       "utterances": [
         "show orders for Electronics",
         "actually I meant Apparel"
@@ -224,7 +224,7 @@
       "id": "correction-03",
       "category": "correction",
       "passed": true,
-      "durationMs": 60,
+      "durationMs": 69,
       "utterances": [
         "revenue by category for last quarter",
         "no make that this quarter"
@@ -236,7 +236,7 @@
       "id": "correction-04",
       "category": "correction",
       "passed": true,
-      "durationMs": 65,
+      "durationMs": 74,
       "utterances": [
         "units sold in the Midwest",
         "scratch that, make it West"
@@ -248,7 +248,7 @@
       "id": "breakout-01",
       "category": "breakout",
       "passed": true,
-      "durationMs": 67,
+      "durationMs": 77,
       "utterances": [
         "show revenue by region for Q3",
         "break out the Southeast"
@@ -260,7 +260,7 @@
       "id": "breakout-02",
       "category": "breakout",
       "passed": true,
-      "durationMs": 115,
+      "durationMs": 149,
       "utterances": [
         "revenue by category this year",
         "break out Electronics"
@@ -272,7 +272,7 @@
       "id": "breakout-03",
       "category": "breakout",
       "passed": true,
-      "durationMs": 27,
+      "durationMs": 43,
       "utterances": [
         "orders by channel this month",
         "break out Web"
@@ -295,7 +295,7 @@
       "id": "ambiguity-02",
       "category": "ambiguity",
       "passed": true,
-      "durationMs": 44,
+      "durationMs": 54,
       "utterances": [
         "show orders in the store"
       ],
@@ -339,7 +339,7 @@
       "id": "unknown-03",
       "category": "unknown_metric",
       "passed": true,
-      "durationMs": 1,
+      "durationMs": 0,
       "utterances": [
         "what is the weather like in New York today"
       ],
@@ -350,7 +350,7 @@
       "id": "control-01",
       "category": "control",
       "passed": true,
-      "durationMs": 97,
+      "durationMs": 71,
       "utterances": [
         "show revenue by region",
         "filter everything to Mobile App"
@@ -362,7 +362,7 @@
       "id": "control-02",
       "category": "control",
       "passed": true,
-      "durationMs": 111,
+      "durationMs": 122,
       "utterances": [
         "show revenue by region",
         "now remove that chart"
@@ -374,7 +374,7 @@
       "id": "control-03",
       "category": "control",
       "passed": true,
-      "durationMs": 137,
+      "durationMs": 194,
       "utterances": [
         "show revenue by region",
         "make it monthly",

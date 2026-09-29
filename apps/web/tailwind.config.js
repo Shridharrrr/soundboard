@@ -7,44 +7,24 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      colors: {
-        dark: {
-          900: '#090b10',
-          850: '#0f131a',
-          800: '#141824',
-          750: '#1b2132',
-          700: '#232b40',
-          600: '#343f5c',
-        },
-        brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-        },
-        accent: {
-          cyan: '#06b6d4',
-          emerald: '#10b981',
-          rose: '#f43f5e',
-          amber: '#f59e0b',
-          violet: '#8b5cf6',
-        },
-      },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['Geist', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        mono: ['Geist Mono', 'JetBrains Mono', 'monospace'],
       },
-      animation: {
-        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'border-pulse': 'borderGlow 0.8s ease-out',
+      boxShadow: {
+        'xs': '0 1px 2px 0 rgb(0 0 0 / 0.04)',
+        'subtle': '0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05)',
+        'card': '0 0 0 1px rgba(24, 24, 27, 0.07), 0 1px 2px 0 rgba(24, 24, 27, 0.04)',
+        'card-hover': '0 0 0 1px rgba(24, 24, 27, 0.12), 0 4px 12px 0 rgba(24, 24, 27, 0.05)',
       },
       keyframes: {
         borderGlow: {
-          '0%': { borderColor: '#6366f1', boxShadow: '0 0 15px rgba(99, 102, 241, 0.5)' },
-          '100%': { borderColor: 'rgba(255, 255, 255, 0.1)', boxShadow: 'none' },
+          '0%': { borderColor: '#18181b', boxShadow: '0 0 0 2px rgba(24, 24, 27, 0.1)' },
+          '100%': { borderColor: 'rgba(228, 228, 231, 1)', boxShadow: 'none' },
         },
+      },
+      animation: {
+        'border-pulse': 'borderGlow 0.8s ease-out',
       },
     },
   },

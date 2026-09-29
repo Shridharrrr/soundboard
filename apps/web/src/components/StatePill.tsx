@@ -10,39 +10,45 @@ export const StatePill: React.FC<StatePillProps> = ({ state }) => {
     switch (state) {
       case 'Listening':
         return {
-          bg: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
-          dot: 'bg-emerald-400 shadow-[0_0_10px_#34d399] animate-pulse',
+          wrapper: 'bg-emerald-50 text-emerald-800 border-emerald-200/80',
+          dot: 'bg-emerald-500 ring-2 ring-emerald-300/50',
+          ping: true,
           label: 'Listening',
         };
       case 'Thinking':
         return {
-          bg: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400',
-          dot: 'bg-indigo-400 shadow-[0_0_10px_#818cf8] animate-ping',
-          label: 'Thinking...',
+          wrapper: 'bg-indigo-50 text-indigo-800 border-indigo-200/80',
+          dot: 'bg-indigo-500 ring-2 ring-indigo-300/50',
+          ping: true,
+          label: 'Thinking',
         };
       case 'Speaking':
         return {
-          bg: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400',
-          dot: 'bg-cyan-400 shadow-[0_0_10px_#22d3ee] animate-pulse',
+          wrapper: 'bg-blue-50 text-blue-800 border-blue-200/80',
+          dot: 'bg-blue-500 ring-2 ring-blue-300/50',
+          ping: false,
           label: 'Speaking',
         };
       case 'Interrupted':
         return {
-          bg: 'bg-rose-500/15 border-rose-500/40 text-rose-400',
-          dot: 'bg-rose-400 shadow-[0_0_12px_#f43f5e] animate-bounce',
+          wrapper: 'bg-rose-50 text-rose-800 border-rose-200/80',
+          dot: 'bg-rose-500 ring-2 ring-rose-300/50',
+          ping: false,
           label: 'Interrupted',
         };
       case 'Connecting':
         return {
-          bg: 'bg-amber-500/10 border-amber-500/30 text-amber-400',
-          dot: 'bg-amber-400 shadow-[0_0_10px_#fbbf24] animate-spin',
-          label: 'Connecting...',
+          wrapper: 'bg-amber-50 text-amber-800 border-amber-200/80',
+          dot: 'bg-amber-500',
+          ping: false,
+          label: 'Connecting',
         };
       case 'Idle':
       default:
         return {
-          bg: 'bg-slate-800/60 border-slate-700/40 text-slate-400',
-          dot: 'bg-slate-500',
+          wrapper: 'bg-zinc-100/90 text-zinc-600 border-zinc-200/80',
+          dot: 'bg-zinc-400',
+          ping: false,
           label: 'Idle',
         };
     }
@@ -52,10 +58,15 @@ export const StatePill: React.FC<StatePillProps> = ({ state }) => {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border backdrop-blur-sm transition-all duration-300 ${style.bg}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border shadow-xs transition-all duration-200 select-none ${style.wrapper}`}
     >
-      <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${style.dot}`} />
-      <span>{style.label}</span>
+      <span className="relative flex h-2 w-2">
+        {style.ping && (
+          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${style.dot}`} />
+        )}
+        <span className={`relative inline-flex rounded-full h-2 w-2 ${style.dot}`} />
+      </span>
+      <span className="tracking-tight">{style.label}</span>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Filter } from '@vd/shared';
-import { Undo2, Trash, ExternalLink, Filter as FilterIcon, X } from 'lucide-react';
+import { Undo2, Trash2, ExternalLink, Filter as FilterIcon, X } from 'lucide-react';
 
 interface GlobalFilterBarProps {
   filters: Filter[];
@@ -22,22 +22,22 @@ export const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({
   onExportMetabase,
 }) => {
   return (
-    <div className="glass-panel rounded-xl px-4 py-3 flex items-center justify-between gap-4">
+    <div className="bg-white border border-zinc-200/90 rounded-xl px-4 py-2.5 flex items-center justify-between gap-4 shadow-xs">
       {/* Global Filter Chips */}
       <div className="flex items-center gap-2 flex-wrap min-w-0">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 mr-1">
-          <FilterIcon className="w-3.5 h-3.5 text-brand-400" />
+        <div className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 mr-1">
+          <FilterIcon className="w-3.5 h-3.5 text-zinc-700" />
           <span>Global Filters:</span>
         </div>
 
         {filters.length === 0 ? (
-          <span className="text-xs text-slate-500 italic">None active</span>
+          <span className="text-xs text-zinc-400">None active</span>
         ) : (
-          <>
+          <div className="flex items-center gap-1.5 flex-wrap">
             {filters.map((f) => (
               <span
                 key={f.dimension}
-                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-300 font-medium"
+                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-md bg-zinc-100 border border-zinc-200 text-zinc-800 font-medium"
               >
                 <span>{f.dimension}: {f.values.join(', ')}</span>
               </span>
@@ -45,11 +45,11 @@ export const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({
             <button
               onClick={onClearFilters}
               title="Clear all global filters"
-              className="text-xs text-slate-400 hover:text-rose-400 p-1 rounded transition-colors"
+              className="text-xs text-zinc-400 hover:text-zinc-700 p-1 rounded transition-colors"
             >
               <X className="w-3.5 h-3.5" />
             </button>
-          </>
+          </div>
         )}
       </div>
 
@@ -59,7 +59,7 @@ export const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({
           onClick={onUndo}
           disabled={!canUndo}
           title="Undo last action"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/80 bg-dark-800 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-600 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-xs font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 shadow-xs disabled:opacity-40 disabled:pointer-events-none transition-all active:scale-[0.98]"
         >
           <Undo2 className="w-3.5 h-3.5" />
           <span>Undo</span>
@@ -68,9 +68,9 @@ export const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({
         <button
           onClick={onClearDashboard}
           title="Clear all charts"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/80 bg-dark-800 text-xs font-medium text-slate-300 hover:text-rose-400 hover:border-rose-500/40 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-xs font-medium text-zinc-600 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50/50 shadow-xs transition-all active:scale-[0.98]"
         >
-          <Trash className="w-3.5 h-3.5" />
+          <Trash2 className="w-3.5 h-3.5" />
           <span>Clear</span>
         </button>
 
@@ -78,7 +78,7 @@ export const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({
           <button
             onClick={onExportMetabase}
             title="Export dashboard to Metabase"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-brand-500/30 bg-brand-500/15 text-xs font-semibold text-brand-300 hover:bg-brand-500/25 hover:border-brand-500/50 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-xs transition-all active:scale-[0.98]"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             <span>Export to Metabase</span>
