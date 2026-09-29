@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDashboardStore } from '../store/dashboard.js';
 import type { ChartSpec } from '@vd/shared';
 import {
@@ -8,7 +8,7 @@ import {
   TrendingUp,
   Sparkles,
   ArrowRight,
-  Layers,
+  CheckCircle2,
 } from 'lucide-react';
 
 interface CreateDashboardModalProps {
@@ -101,6 +101,26 @@ export const CreateDashboardModal: React.FC<CreateDashboardModalProps> = ({
   const [description, setDescription] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<string>('blank');
 
+  // Handle ESC key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  // Reset form when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setTitle('');
+      setDescription('');
+      setSelectedTemplate('blank');
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleCreate = (e: React.FormEvent) => {
@@ -115,110 +135,141 @@ export const CreateDashboardModal: React.FC<CreateDashboardModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/40 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="bg-white rounded-2xl border border-zinc-200 shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-zinc-950/45 backdrop-blur-xs p-4 sm:p-6 flex min-h-screen items-center justify-center animate-in fade-in duration-150"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        className="relative bg-white rounded-2xl border border-zinc-200 shadow-2xl w-full max-w-lg my-auto flex flex-col max-h-[min(90vh,680px)] overflow-hidden animate-in zoom-in-95 duration-150"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center shadow-xs">
+        <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between shrink-0 bg-white">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center shadow-xs flex-shrink-0">
               <Layout className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-semibold text-sm text-zinc-950">Create New Dashboard</h2>
-              <p className="text-xs text-zinc-500">Add a separate workspace to organize and persist metrics</p>
+              <h2 className="font-display font-semibold text-sm text-zinc-950">Create New Dashboard</h2>
+              <p className="text-xs text-zinc-500">Add a dedicated workspace to organize metrics</p>
             </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-1 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
+            title="Close (Esc)"
+            className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Form Body */}
-        <form onSubmit={handleCreate} className="p-6 space-y-5">
-          {/* Dashboard Name */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-700 mb-1.5">
-              Dashboard Name
-            </label>
-            <input
-              type="text"
-              required
-              autoFocus
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Q3 Sales & Regional Pulse"
-              className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 shadow-xs"
-            />
-          </div>
+        {/* Form Body - Scrollable if screen height is constrained */}
+        <form onSubmit={handleCreate} className="flex flex-col flex-1 overflow-hidden">
+          <div className="p-6 space-y-4 overflow-y-auto flex-1">
+            {/* Dashboard Name */}
+            <div>
+              <label className="block text-xs font-semibold text-zinc-800 mb-1.5">
+                Dashboard Name
+              </label>
+              <input
+                type="text"
+                required
+                autoFocus
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="e.g. Q3 Sales & Regional Pulse"
+                className="w-full px-3.5 py-2 rounded-xl bg-white border border-zinc-200 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 shadow-xs transition-colors"
+              />
+            </div>
 
-          {/* Description */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-700 mb-1.5">
-              Description <span className="text-zinc-400 font-normal">(Optional)</span>
-            </label>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="e.g. Executive weekly check-in dashboard"
-              className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 shadow-xs"
-            />
-          </div>
+            {/* Description */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold text-zinc-800">
+                  Description
+                </label>
+                <span className="text-[11px] text-zinc-400">Optional</span>
+              </div>
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="e.g. Executive weekly check-in dashboard"
+                className="w-full px-3.5 py-2 rounded-xl bg-white border border-zinc-200 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 shadow-xs transition-colors"
+              />
+            </div>
 
-          {/* Starter Template Selection */}
-          <div>
-            <label className="block text-xs font-medium text-zinc-700 mb-2">
-              Starter Layout
-            </label>
-            <div className="space-y-2">
-              {TEMPLATES.map((tmpl) => {
-                const Icon = tmpl.icon;
-                const isSelected = selectedTemplate === tmpl.id;
-                return (
-                  <div
-                    key={tmpl.id}
-                    onClick={() => setSelectedTemplate(tmpl.id)}
-                    className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                      isSelected
-                        ? 'bg-zinc-50 border-zinc-900 shadow-xs ring-1 ring-zinc-900'
-                        : 'bg-white border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50/50'
-                    }`}
-                  >
+            {/* Starter Template Selection */}
+            <div>
+              <label className="block text-xs font-semibold text-zinc-800 mb-2">
+                Starter Layout
+              </label>
+              <div className="space-y-2">
+                {TEMPLATES.map((tmpl) => {
+                  const Icon = tmpl.icon;
+                  const isSelected = selectedTemplate === tmpl.id;
+                  return (
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                        isSelected ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-600'
+                      key={tmpl.id}
+                      onClick={() => {
+                        setSelectedTemplate(tmpl.id);
+                        if (!title && tmpl.id !== 'blank') {
+                          setTitle(tmpl.name);
+                        }
+                      }}
+                      className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                        isSelected
+                          ? 'bg-zinc-50/80 border-zinc-900 shadow-xs ring-1 ring-zinc-900/10'
+                          : 'bg-white border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50/40'
                       }`}
                     >
-                      <Icon className="w-3.5 h-3.5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-zinc-900">{tmpl.name}</span>
-                        {tmpl.charts.length > 0 && (
-                          <span className="text-[10px] font-mono text-zinc-500 bg-zinc-100 px-1.5 py-0.5 rounded">
-                            {tmpl.charts.length} charts
-                          </span>
-                        )}
+                      <div
+                        className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors ${
+                          isSelected ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-600'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
                       </div>
-                      <p className="text-[11px] text-zinc-500 mt-0.5 leading-relaxed">
-                        {tmpl.description}
-                      </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <span className={`text-xs font-medium ${isSelected ? 'text-zinc-950 font-semibold' : 'text-zinc-800'}`}>
+                            {tmpl.name}
+                          </span>
+                          <div className="flex items-center gap-1.5">
+                            {tmpl.charts.length > 0 ? (
+                              <span className="text-[10px] font-mono text-zinc-600 bg-zinc-100 px-1.5 py-0.5 rounded border border-zinc-200/60">
+                                {tmpl.charts.length} charts
+                              </span>
+                            ) : (
+                              <span className="text-[10px] font-mono text-zinc-400 bg-zinc-50 px-1.5 py-0.5 rounded">
+                                Empty
+                              </span>
+                            )}
+                            {isSelected && (
+                              <CheckCircle2 className="w-3.5 h-3.5 text-zinc-900" />
+                            )}
+                          </div>
+                        </div>
+                        <p className="text-[11px] text-zinc-500 mt-0.5 leading-relaxed">
+                          {tmpl.description}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="pt-2 border-t border-zinc-100 flex items-center justify-end gap-2.5">
+          {/* Footer Actions */}
+          <div className="px-6 py-3.5 border-t border-zinc-100 flex items-center justify-end gap-2.5 shrink-0 bg-zinc-50/80">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
+              className="px-4 py-2 rounded-xl border border-zinc-200 bg-white text-xs font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 transition-colors shadow-2xs"
             >
               Cancel
             </button>

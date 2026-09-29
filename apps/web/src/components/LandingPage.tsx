@@ -371,13 +371,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-zinc-950 leading-[1.08] mb-6">
-            Speak naturally. <br className="hidden sm:inline" />
-            <span className="text-zinc-400 font-normal">Watch your dashboard build</span> in real time.
+          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-extrabold tracking-[-0.04em] sm:tracking-[-0.045em] text-zinc-950 leading-[1.04] sm:leading-[1.02] mb-6">
+            <span className="bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-700 bg-clip-text text-transparent">
+              Speak naturally.
+            </span>{' '}
+            <br className="hidden sm:inline" />
+            <span className="text-zinc-400 font-medium tracking-[-0.03em]">
+              Watch your dashboard build
+            </span>{' '}
+            <span className="bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-950 bg-clip-text text-transparent">
+              in real time.
+            </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl mx-auto text-base sm:text-lg text-zinc-600 leading-relaxed mb-10">
+          <p className="max-w-2xl mx-auto text-base sm:text-lg text-zinc-600 leading-relaxed font-normal mb-10">
             Say goodbye to static reports and fragile SQL builders. Speak to your live data with full-duplex conversational voice—charts materialize, filter, compare, and morph in milliseconds with zero LLM hallucination.
           </p>
 
@@ -439,7 +447,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
             Interactive Product Demo
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
             Test the conversational turn-taking engine
           </h2>
           <p className="text-xs sm:text-sm text-zinc-600 mt-2">
@@ -599,7 +607,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
             <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
               Engineering Architecture
             </span>
-            <h2 className="text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
+            <h2 className="font-display text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
               Built for speed, accuracy, and zero hallucination
             </h2>
             <p className="text-sm text-zinc-600 mt-2">
@@ -695,7 +703,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
             Evaluation Suite & Correctness
           </span>
-          <h2 className="text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
+          <h2 className="font-display text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
             100% pass rate across 30 conversational benchmarks
           </h2>
           <p className="text-sm text-zinc-600 mt-2">
@@ -755,7 +763,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
             <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
               Prompt Library
             </span>
-            <h2 className="text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
+            <h2 className="font-display text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
               Spoken queries you can try right now
             </h2>
             <p className="text-sm text-zinc-600 mt-2">
@@ -803,7 +811,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
             Technical Flow
           </span>
-          <h2 className="text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
+          <h2 className="font-display text-3xl font-bold text-zinc-950 tracking-tight mt-1.5">
             How natural voice turns into live visual metrics
           </h2>
           <p className="text-sm text-zinc-600 mt-2">
@@ -852,7 +860,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunchApp, onCreateD
           <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/10">
             <Mic className="w-6 h-6" />
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-4">
+          <h2 className="font-display text-3xl sm:text-5xl font-bold tracking-tight mb-4">
             Ready to talk to your data?
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
